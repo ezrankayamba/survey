@@ -1,0 +1,33 @@
+<html>
+<body>
+	<div>
+		<form class="log-in-form" action="{{contextPath}}/register"
+			method="POST">
+			<input type="hidden" name="{{csrfParam}}" value="{{csrfToken}}" />
+
+			<h4 class="text-center">Register User. Complete this form!</h4>
+			<label>Username <input name="username" type="text"
+				placeholder="Username">
+			</label> <label>Email <input name="email" type="email"
+				placeholder="Email">
+			</label> <label>Fullname <input name="fullName" type="text"
+				placeholder="Fullname">
+			</label> 
+			<label>Role 
+				<select name="role.id">
+					{{#each roles}}
+						<option value="{{this.id}}">{{this.description}}</option>
+					{{/each}}
+				</select>
+			</label> 
+			<label>Password <input name="password" type="password"
+				placeholder="Password">
+			</label>
+			<p>
+				<input name="submit" type="submit" class="button expanded"
+					value="Register"></input>
+			</p>
+		</form>
+	</div>
+</body>
+</html>

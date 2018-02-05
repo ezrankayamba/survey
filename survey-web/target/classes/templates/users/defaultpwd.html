@@ -1,0 +1,26 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout">
+<head>
+<title>Default Password</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form class="log-in-form" th:action="@{/login}" method="POST">
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" />
+
+			<h4 class="text-center">You received registration/reset email.<br/> Make sure you change your password on next page!</h4>
+			<input name="username" type="hidden"
+				placeholder="Username"  th:value="${username}"/> <input name="password" type="hidden"
+				placeholder="Password" th:value="${password}"/>
+			<p>
+				<input name="submit" type="submit" class="button expanded"
+					value="Proceed" />
+			</p>
+		</form>
+	</div>
+</body>
+</html>

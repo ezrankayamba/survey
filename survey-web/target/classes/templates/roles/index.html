@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>Roles</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h3>User Role management</h3>
+		<div class="table-top row grid-x">
+			<div class="cell large-9 medium-8">
+				<form th:action="@{/roles}" method="POST">
+					<input type="search" name="search" placeholder="Search.."
+						th:value="${search}" class="animated-search-form" />
+				</form>
+			</div>
+			<div class="cell large-3 medium-4">
+
+				<div class="expanded button-group">
+					<a th:href="@{/roles/create}" class="button tiny">Create</a>
+				</div>
+			</div>
+		</div>
+		<table class="hover stack unstriped" id="list" role="grid"
+			th:if="${!roles.isEmpty()}">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Manage Role</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="e : ${roles}">
+					<tr>
+						<td th:text="${e.name}"></td>
+						<td th:text="${e.description}"></td>
+						<td><a th:href="@{'/roles/edit/' + ${e.id}}"
+							class="button small hollow">Edit</a> <a th:href="@{'/roles/matrix/' + ${e.id}}"
+							class="button small">Matrix</a> <a
+							th:href="@{'/roles/delete/' + ${e.id}}"
+							class="button small hollow alert">Delete</a></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		<div class="empty" th:if="${roles.isEmpty()}">
+			<i>No data found</i>
+		</div>
+	</div>
+</body>
+</html>

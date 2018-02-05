@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>Permissions</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h3>Permission management</h3>
+		<div class="table-top row grid-x">
+			<div class="cell large-9 medium-8">
+				<form th:action="@{/permissions}" method="POST">
+					<input type="search" name="search" placeholder="Search.."
+						th:value="${search}" class="animated-search-form" />
+				</form>
+			</div>
+			<div class="cell large-3 medium-4">
+				 
+				<div class="expanded button-group">
+					<a th:href="@{/permissions/create}" class="button tiny">Create</a>
+				</div>
+			</div>
+		</div>
+		<table class="hover stack unstriped" id="list" role="grid" th:if="${!permissions.isEmpty()}">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Child Of</th>
+					<th>Manage Permission</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="p : ${permissions}">
+					<tr>
+						<td th:text="${p.name}"></td>
+						<td th:text="${p.description}"></td>
+						<td th:text="${p.parent != null ? p.parent.name : 'Nil'}"></td>
+						<td><a th:href="@{'/permissions/edit/' + ${p.id}}"
+							class="button small hollow">Edit</a> <a
+							th:href="@{'/permissions/delete/' + ${p.id}}"
+							class="button small hollow alert">Delete</a></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		<div class="empty" th:if="${permissions.isEmpty()}">
+			<i>No data found</i>
+		</div>
+	</div>
+</body>
+</html>

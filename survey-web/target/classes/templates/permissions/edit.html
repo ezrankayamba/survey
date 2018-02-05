@@ -1,0 +1,37 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>Permissions</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h3>Permission editing</h3>
+		<form class="log-in-form" th:action="@{/permissions/save}"
+			method="POST">
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" /> <input type="hidden" name="id"
+				th:value="${permission.id}" /> <label>Name <input
+				name="name" type="text" placeholder="Name of permission"
+				th:value="${permission.name}" />
+			</label> <label>Description <input name="description"
+				th:value="${permission.description}" type="text"
+				placeholder="Description" />
+			</label> <label>Parent <select name="parent.id">
+					<option value="0">No parent</option>
+					<option th:each="p : ${parents}" th:value="${p.id}"
+						th:text="${p.description}"
+						th:selected="${permission.parent !=null ? (p.id == permission.parent.id) : false}">Option</option>
+			</select>
+			</label>
+			<p>
+				<input name="submit" type="submit" class="button expanded"
+					value="Save"></input>
+			</p>
+		</form>
+	</div>
+</body>
+</html>

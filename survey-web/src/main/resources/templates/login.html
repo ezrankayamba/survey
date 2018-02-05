@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout">
+<head>
+<title>Login</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form class="log-in-form" th:action="@{/login}" method="POST">
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" />
+
+			<h4 class="text-center">Please log in with your username</h4>
+			<label>Username <input name="username" type="text"
+				placeholder="Username" />
+			</label> <label>Password <input name="password" type="password"
+				placeholder="Password" />
+			</label>
+			<p>
+				<input name="submit" type="submit" class="button expanded"
+					value="Log in" />
+			</p>
+			<p class="text-center">
+				<a href="#">Forgot your password?</a>
+			</p>
+		</form>
+	</div>
+</body>
+</html>

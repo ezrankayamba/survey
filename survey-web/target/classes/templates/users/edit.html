@@ -1,0 +1,48 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>Permissions</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h3>User editing</h3>
+		<form class="log-in-form" th:action="@{/users/save}" method="POST">
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" /> <input type="hidden" name="id"
+				th:value="${userEntity.id}" /> <label>Full name <input
+				name="fullName" type="text" placeholder="Full name of user"
+				th:value="${userEntity.fullName}" />
+			</label> <label>Username <input name="username"
+				th:value="${userEntity.username}" type="text"
+				placeholder="Your login name" />
+			</label><label>Email <input name="email"
+				th:value="${userEntity.email}" type="text"
+				placeholder="Email address" />
+			</label> <label>User role <select name="role.id">
+					<option th:each="e : ${roles}" th:value="${e.id}"
+						th:text="${e.description}"
+						th:selected="${userEntity.role !=null ? (e.id == userEntity.role.id) : false}">Option</option>
+			</select>
+			</label> <label>Enabled</label>
+			<div class="switch small">
+				<input th:attrappend="userEntity=${user.enabled}"
+					class="switch-input" id="yes-no" name="enabled"
+					th:value="${userEntity.enabled}" type="checkbox" /> <label
+					class="switch-paddle" for="yes-no"> <span
+					class="show-for-sr">Enabled?</span> <span class="switch-active"
+					aria-hidden="true">Yes</span> <span class="switch-inactive"
+					aria-hidden="true">No</span>
+				</label>
+			</div>
+			<p>
+				<input name="submit" type="submit" class="button expanded"
+					value="Save"></input>
+			</p>
+		</form>
+	</div>
+</body>
+</html>

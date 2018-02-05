@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>Users</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h3>User management</h3>
+		<div class="table-top row grid-x">
+			<div class="cell large-9 medium-8">
+				<form th:action="@{/users}" method="POST">
+					<input type="search" name="search" placeholder="Search.."
+						th:value="${search}" class="animated-search-form" />
+				</form>
+			</div>
+			<div class="cell large-3 medium-4">
+
+				<div class="expanded button-group">
+					<a th:href="@{/users/create}" class="button tiny">Create</a>
+				</div>
+			</div>
+		</div>
+		<table class="hover stack unstriped" id="list" role="grid"
+			th:if="${!users.isEmpty()}">
+			<thead>
+				<tr>
+					<th>Full name</th>
+					<th>Login</th>
+					<th>Email address</th>
+					<th>Enabled</th>
+					<th>Reset is on</th>
+					<th>Manage User</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="e : ${users}">
+					<tr>
+						<td th:text="${e.fullName}"></td>
+						<td th:text="${e.username}"></td>
+						<td th:text="${e.email}"></td>
+						<td th:text="${e.enabled}"></td>
+						<td th:text="${e.resetOn}"></td>
+						<td><a th:href="@{'/users/edit/' + ${e.id}}"
+							class="button small hollow">Edit</a> <a th:href="@{'/users/pwdreset/' + ${e.id}}"
+							class="button small warning hollow">Reset Pwd</a> <a
+							th:href="@{'/users/delete/' + ${e.id}}"
+							class="button small hollow alert">Delete</a></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		<div class="empty" th:if="${users.isEmpty()}">
+			<i>No data found</i>
+		</div>
+	</div>
+</body>
+</html>

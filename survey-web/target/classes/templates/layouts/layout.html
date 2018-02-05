@@ -1,0 +1,108 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Survey
+	Tool</title>
+<link rel="stylesheet" th:href="@{/fonts/css/font-awesome.css}" />
+<link rel="stylesheet" th:href="@{/css/foundation.css}" />
+<link rel="stylesheet" th:href="@{/jtree/themes/default/style.min.css}" />
+<link rel="stylesheet" th:href="@{/css/app.css}" />
+
+<script th:src="@{/js/vendor/jquery.js}"></script>
+<!-- script th:src="@{/js/vendor/jquery.validate.min.js}"></script-->
+<script th:src="@{/js/vendor/what-input.js}"></script>
+<script th:src="@{/js/vendor/foundation.js}"></script>
+<script th:src="@{/jtree/jstree.min.js}"></script>
+<script th:src="@{/js/formrepos.js}"></script>
+<script th:src="@{/js/app.js}"></script>
+</head>
+<body>
+	<header id="mainHeader">
+		<div class="row">
+			<nav class="top-bar" role="navigator" data-topbar="">
+				<ul class="menu title-area">
+					<li class="name">
+						<h4 id="logo"></h4>
+					</li>
+				</ul>
+				<ul class="menu title-bar" data-responsive-toggle="topBar">
+					<li><a class="menu-icon" href="#" data-toggle="topBar"></a></li>
+				</ul>
+				<ul id="topBar"
+					class="menu vertical medium-horizontal top-bar-right">
+					<li><a th:href="@{/home}">Home</a></li>
+					<li sec:authorize="isAuthenticated()" th:if="${user != null}"><a
+						th:href="@{'/users/pwdreset/' + ${user.id}}">Reset password</a></li>
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+					<li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<section id="mainView">
+		<div class="row" id="breadcrumbswrapper">
+			<nav aria-label="You are here:" role="navigation">
+				<ul class="breadcrumbs">
+					<li>Navigation:</li>
+					<th:block th:each="b : ${breadcrumbs}">
+						<li><a th:href="@{${b.url}}" th:text="${b.label}">Link</a></li>
+					</th:block>
+				</ul>
+			</nav>
+		</div>
+		<div class="row grid-x ">
+			<div sec:authorize="isAuthenticated()" id="leftSidebar"
+				class="cell large-2 medium-4">
+				<div class="row" th:if="${user != null}">
+					<b>Welcome, <span th:text="${user.username}"></span>
+					</b> <br /> <i>Your role is <span
+						style="text-decoration: underline;"
+						th:text="${user.role.description}"></span>
+					</i>
+					<hr />
+					<ul class="vertical menu">
+						<li th:classappend="${homeMenu} ? is-active : ''"><a
+							th:href="@{/home}">Home</a></li>
+						<li th:classappend="${usersMenu != null} ? is-active : ''"><a
+							th:href="@{/users}">Manage Users</a></li>
+						<li th:classappend="${rolesMenu != null} ? is-active : ''"><a
+							th:href="@{/roles}">Manage Roles</a></li>
+						<li th:classappend="${permissionsMenu != null} ? is-active : ''"><a
+							th:href="@{/permissions}">Manage Permissions</a></li>
+						<li th:classappend="${formsMenu != null} ? is-active : ''"><a
+							th:href="@{/forms}">Manage Form Repos</a></li>
+					</ul>
+				</div>
+
+			</div>
+			<div sec:authorize="isAuthenticated()" id="mainContent"
+				class="cell large-10 medium-8">
+				<div class="grid-container">
+					<div class="grid-x grid-padding-x align-left">
+						<div layout:fragment="content" class="display-panel">Main
+							content</div>
+					</div>
+				</div>
+			</div>
+			<div sec:authorize="!isAuthenticated()" id="mainContent"
+				class="cell large-12 medium-12">
+				<div class="grid-container">
+					<div class="grid-x grid-padding-x align-center">
+						<div layout:fragment="content">Main content</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer id="mainFooter">
+		<div class="row">
+			<span>&copy; 2017 PINCOM TANZANIA</span>
+		</div>
+	</footer>
+</body>
+</html>

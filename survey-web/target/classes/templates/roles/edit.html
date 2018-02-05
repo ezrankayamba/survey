@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>Permissions</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h3>Permission editing</h3>
+		<form class="log-in-form" th:action="@{/roles/save}"
+			method="POST">
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" /> <input type="hidden" name="id"
+				th:value="${role.id}" /> <label>Name <input
+				name="name" type="text" placeholder="Name of role"
+				th:value="${role.name}" />
+			</label> <label>Description <input name="description"
+				th:value="${role.description}" type="text"
+				placeholder="Description" />
+			</label>
+			<p>
+				<input name="submit" type="submit" class="button expanded"
+					value="Save"></input>
+			</p>
+		</form>
+	</div>
+</body>
+</html>

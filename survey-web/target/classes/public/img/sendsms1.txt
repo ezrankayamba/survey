@@ -1,0 +1,25 @@
+This is a simple API to deliver SMS notification to customers
+
+Request Params
+<Header>
+Content-Type: application/json
+Username: <Username>
+Password: <Password>
+
+<Body>
+ReceiverMSISDN    [M]   The phone number of receiving entity
+SMSText           [M]   The SMS text to be delivered
+SenderID          [O]   Optional sender ID, otherwise use default
+ServiceLevel      [O]   Optional service level. e.g.
+                        0 = Ensure this is delivered ASAP,
+                        1 = Ensure this is delivered, delay is allowed, --Default--
+                        2 = Deliver whenever possible
+
+Response Params
+
+Result            [M]   The response code
+                        200 = Success
+                        900 = General failure, populate specific message
+                        901 = Validation failure, populate specific field(s) which are invalid
+                        902 = SMS Gateway not able to process the request
+Message           [M]   The response message

@@ -1,0 +1,23 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>Error</title>
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" th:href="@{/fonts/css/font-awesome.css}" />
+<link rel="stylesheet" th:href="@{/css/foundation.css}" />
+<link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+<body>
+	<div class="row" style="text-align: center;">
+		<h1 class="callout alert">Error Page</h1>
+		<p>Access denied!</p>
+		<a class="button hollow" th:href="@{/}">Home page</a>
+		 Or <a class="button hollow alert" th:href="@{/logout}">Logout</a>
+	</div>
+</body>
+</html>

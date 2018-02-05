@@ -1,0 +1,74 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>Roles</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h3>User Role vs Permissions</h3>
+		<h5>Manage permissions for role: <i th:text="${role.description}"></i></h5>
+		<div class="table-top row grid-x">
+			<div class="cell large-9 medium-8">
+				<form th:action="@{'/roles/matrix/' + ${role.id}}" method="POST">
+					<input type="hidden" name="id" th:value="${role.id}" /> <input
+						type="search" name="search" placeholder="Search.."
+						th:value="${search}" class="animated-search-form" />
+				</form>
+			</div>
+			<div class="cell large-3 medium-4">
+				<div class="expanded button-group">
+					<a th:href="@{/roles}" class="button tiny hollow alert">Ignore</a>
+				</div>
+			</div>
+		</div>
+		<div>
+			<form th:action="@{/roles/matrix/save}" method="POST">
+				<input type="hidden" name="id" th:value="${role.id}" />
+				<table class="hover stack unstriped" id="list" role="grid"
+					th:if="${!permissions.isEmpty()}">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Description</th>
+							<th>Child Of</th>
+							<th>Enable permission</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="p : ${permissions}">
+							<tr>
+								<td th:text="${p.name}"></td>
+								<td th:text="${p.description}"></td>
+								<td th:text="${p.parent != null ? p.parent.name : 'Nil'}"></td>
+								<td>
+									<div class="switch">
+										<input class="switch-input" th:id="'permission-' + ${p.id}"
+											type="checkbox" name="permissionIds" th:value="${p.id}" th:if="${p.enabled}" checked="checked"/>
+											<input class="switch-input" th:id="'permission-' + ${p.id}"
+											type="checkbox" name="permissionIds" th:value="${p.id}" th:if="${!p.enabled}" />
+											<input name="mtrxPermissionIds" type="hidden" th:value="${p.id + '-' + p.enabled}" /> <label
+											class="switch-paddle" th:for="'permission-' + ${p.id}">
+											<span class="show-for-sr">Choose</span>
+										</label>
+									</div>
+								</td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+				<p>
+					<input name="submit" type="submit" class="button expanded"
+						value="Save"></input>
+				</p>
+			</form>
+		</div>
+		<div class="empty" th:if="${permissions.isEmpty()}">
+			<i>No data found</i>
+		</div>
+	</div>
+</body>
+</html>

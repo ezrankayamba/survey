@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout">
+<head>
+<title>Default Password</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form class="log-in-form" th:action="@{/users/changepwd}"
+			method="POST">
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" />
+
+			<h4 class="text-center">Kindly change password here!</h4>
+			<p>Your username: <i th:text="${cpUser.username}"></i></p>
+			<input name="id" type="hidden" placeholder="Username"
+				th:value="${cpUser.id}" /> <label>Password <input
+				name="password" type="password" placeholder="Enter new password" />
+			</label> <label>Password confirm <input name="password2" type="password"
+				placeholder="Cofnrim password" />
+			</label>
+			<p>
+				<input name="submit" type="submit" class="button expanded"
+					value="Save your new password" />
+			</p>
+		</form>
+	</div>
+</body>
+</html>

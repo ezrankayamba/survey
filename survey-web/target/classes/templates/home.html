@@ -1,0 +1,21 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorator="layouts/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>Home</title>
+</head>
+<body>
+	<section layout:fragment="content">
+		<h3>Survey Tool Home!</h3>
+		<p sec:authorize="isAuthenticated()">
+			You are welcome, <i th:text="${user.username}"></i>
+		</p>
+		<p sec:authorize="!isAuthenticated()">
+			You should login to use this platform. <a th:href="@{/login}">Login</a>
+		</p>
+	</section>
+</body>
+</html>
