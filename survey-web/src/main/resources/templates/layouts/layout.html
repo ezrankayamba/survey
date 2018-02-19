@@ -10,15 +10,18 @@
 	Tool</title>
 <link rel="stylesheet" th:href="@{/fonts/css/font-awesome.css}" />
 <link rel="stylesheet" th:href="@{/css/foundation.css}" />
-<link rel="stylesheet" th:href="@{/jtree/themes/default/style.min.css}" />
+<link rel="stylesheet" th:href="@{/libs/jtree/themes/default/style.min.css}" />
+<link rel="stylesheet" th:href="@{/libs/leaflet/leaflet.css}" />
 <link rel="stylesheet" th:href="@{/css/app.css}" />
 
 <script th:src="@{/js/vendor/jquery.js}"></script>
 <!-- script th:src="@{/js/vendor/jquery.validate.min.js}"></script-->
 <script th:src="@{/js/vendor/what-input.js}"></script>
 <script th:src="@{/js/vendor/foundation.js}"></script>
-<script th:src="@{/jtree/jstree.min.js}"></script>
+<script th:src="@{/libs/jtree/jstree.min.js}"></script>
+<script th:src="@{/libs/leaflet/leaflet.js}"></script>
 <script th:src="@{/js/formrepos.js}"></script>
+<script th:src="@{/js/forminstances.js}"></script>
 <script th:src="@{/js/app.js}"></script>
 </head>
 <body>
@@ -37,7 +40,7 @@
 					class="menu vertical medium-horizontal top-bar-right">
 					<li><a th:href="@{/home}">Home</a></li>
 					<li sec:authorize="isAuthenticated()" th:if="${user != null}"><a
-						th:href="@{'/users/pwdreset/' + ${user.id}}">Reset password</a></li>
+						th:href="@{'/pwd/reset'}">Reset password</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
 					<li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
 				</ul>
@@ -60,9 +63,7 @@
 				class="cell large-2 medium-4">
 				<div class="row" th:if="${user != null}">
 					<b>Welcome, <span th:text="${user.username}"></span>
-					</b> <br /> <i>Your role is <span
-						style="text-decoration: underline;"
-						th:text="${user.role.description}"></span>
+					</b> <br /> <i>Your role is: <b th:text="${user.role.name}"></b>
 					</i>
 					<hr />
 					<ul class="vertical menu">

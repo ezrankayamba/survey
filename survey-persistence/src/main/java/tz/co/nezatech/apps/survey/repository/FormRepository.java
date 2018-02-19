@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,6 +31,7 @@ public class FormRepository extends BaseDataRepository<Form> {
 				e.setId(rs.getLong("id"));
 				e.setJson(rs.getString("json"));
 				e.setDisplay(rs.getString("display"));
+				e.setCount(countInstance(e.getId()));
 				return e;
 			}
 		};
@@ -49,7 +51,8 @@ public class FormRepository extends BaseDataRepository<Form> {
 	public PreparedStatement psCreate(Form entity, Connection conn) {
 		PreparedStatement ps = null;
 		try {
-			ps = conn.prepareStatement("insert into tbl_form(name, description, filepath, json, display) values (?, ?, ?, ?, ?)",
+			ps = conn.prepareStatement(
+					"insert into tbl_form(name, description, filepath, json, display) values (?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, entity.getName());
 			ps.setString(2, entity.getDescription());
@@ -67,7 +70,8 @@ public class FormRepository extends BaseDataRepository<Form> {
 	public PreparedStatement psUpdate(Form entity, Connection conn) {
 		PreparedStatement ps = null;
 		try {
-			ps = conn.prepareStatement("update tbl_form set name=?,  description=?, filepath=?, json=?, display=? where id=?");
+			ps = conn.prepareStatement(
+					"update tbl_form set name=?,  description=?, filepath=?, json=?, display=? where id=?");
 			ps.setString(1, entity.getName());
 			ps.setString(2, entity.getDescription());
 			ps.setString(3, entity.getFilepath());
@@ -93,6 +97,11 @@ public class FormRepository extends BaseDataRepository<Form> {
 
 		return ps;
 	}
+	@Override
+	public PreparedStatement psDeleteLinked(long id, Connection conn) {
+		return null;
+	}
+
 
 	@Override
 	public JdbcTemplate getJdbcTemplate() {
@@ -118,5 +127,51 @@ public class FormRepository extends BaseDataRepository<Form> {
 		}
 
 		return ps;
+	}
+
+	public int countInstance(final long reposId) {
+		int count = 0;
+		String sql = "select count(*) as count, form_id from tbl_form_instance fi  where fi.form_id = ? group by fi.form_id";
+		List<Summary> res=getJdbcTemplate().query(sql, new Object[] { reposId }, new RowMapper<Summary>() {
+
+			@Override
+			public Summary mapRow(ResultSet rs, int arg1) throws SQLException {
+				Summary summary = new Summary(reposId, rs.getInt("count"));
+				return summary;
+			}
+
+		});
+		if(res!=null && !res.isEmpty()) {
+			count=res.get(0).getCount();
+		}
+		return count;
+	}
+
+	class Summary {
+		long formId;
+		int count;
+
+		public Summary(long formId, int count) {
+			super();
+			this.formId = formId;
+			this.count = count;
+		}
+
+		public long getFormId() {
+			return formId;
+		}
+
+		public void setFormId(long formId) {
+			this.formId = formId;
+		}
+
+		public int getCount() {
+			return count;
+		}
+
+		public void setCount(int count) {
+			this.count = count;
+		}
+
 	}
 }

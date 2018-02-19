@@ -98,6 +98,8 @@ function initFormReposTree() {
 			$("#inputForm input[name=_name]").val("");
 			$("#inputForm input[name=label]").val("");
 			$("#inputForm input[name=type]").val("");
+			$("#inputForm input[name=regex]").val("");
+			$("#inputForm input[name=regexMessage]").val("");
 
 			if (data.node.id.startsWith("group-")) {
 				groupClick(data.node.parent, data.node.id);
@@ -173,10 +175,14 @@ function groupClick(parentId, myId) {
 			$("#inputForm input[name=_name]").val(grp.name);
 			$("#inputForm input[name=label]").val(grp.label);
 			$("#inputForm input[name=type]").val(grp.type);
+			$("#inputForm input[name=regex]").val(grp.regex);
+			$("#inputForm input[name=regexMessage]").val(grp.regexMessage);
 		} else {
 			$("#inputForm input[name=_name]").val("");
 			$("#inputForm input[name=label]").val("");
 			$("#inputForm input[name=type]").val("");
+			$("#inputForm input[name=regex]").val("");
+			$("#inputForm input[name=regexMessage]").val("");
 		}
 	});
 }
@@ -194,6 +200,8 @@ function inputClick(parentId, myId) {
 	$("#inputForm input[name=_name]").val(inp.name);
 	$("#inputForm input[name=label]").val(inp.label);
 	$("#inputForm input[name=type]").val(inp.type);
+	$("#inputForm input[name=regex]").val(inp.regex);
+	$("#inputForm input[name=regexMessage]").val(inp.regexMessage);
 
 }
 function saveNewGroup(btn) {
@@ -223,6 +231,8 @@ function saveNewInput() {
 				inp.name = $("#inputForm input[name=_name]").val();
 				inp.label = $("#inputForm input[name=label]").val();
 				inp.type = $("#inputForm input[name=type]").val();
+				inp.regex = $("#inputForm input[name=regex]").val();
+				inp.regexMessage = $("#inputForm input[name=regexMessage]").val();
 
 				var idRefs = $("#nodeIdRef").val();
 				var groupId = idRefs.split(",")[1];
@@ -236,7 +246,9 @@ function saveNewInput() {
 				inp.name = $("#inputForm input[name=_name]").val();
 				inp.label = $("#inputForm input[name=label]").val();
 				inp.type = $("#inputForm input[name=type]").val();
-
+				inp.regex = $("#inputForm input[name=regex]").val();
+				inp.regexMessage = $("#inputForm input[name=regexMessage]").val();
+				
 				// getGroupById(groupId).inputs.push(inp);
 				// createNode("#" + groupId, inp.id, inp.name, "last");
 				renameNode(SelectedId, inp.name);

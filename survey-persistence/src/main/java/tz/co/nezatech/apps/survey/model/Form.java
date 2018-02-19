@@ -2,6 +2,7 @@ package tz.co.nezatech.apps.survey.model;
 
 public class Form extends NamedData {
 	String display, filepath, status, version, json;
+	int count;
 
 	public Form() {
 		super();
@@ -50,5 +51,13 @@ public class Form extends NamedData {
 	public void setDisplay(String display) {
 		this.display = display;
 	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}	
 
 }

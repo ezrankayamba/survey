@@ -23,7 +23,7 @@ import tz.co.nezatech.apps.util.nezadb.model.Status;
 
 @Controller
 @RequestMapping("/roles")
-@PreAuthorize("hasAnyRole('Root','Admin')")
+@PreAuthorize("hasAnyAuthority('manageRoles')")
 public class RoleController {
 	@Autowired
 	RoleRepository roleRepository;
@@ -31,13 +31,16 @@ public class RoleController {
 	PermissionRepository permissionRepository;
 
 	@GetMapping()
+	@PreAuthorize("hasAnyAuthority('viewRoles')")
 	public String index(Model m) {
 		m.addAttribute("rolesMenu", true);
 		m.addAttribute("roles", roleRepository.getAll());
 		return "roles/index";
 	}
+	
 
 	@PostMapping()
+	@PreAuthorize("hasAnyAuthority('viewRoles')")
 	public String search(Model m, String search) {
 		m.addAttribute("search", search);
 		System.out.println("Search: " + search);
@@ -50,6 +53,7 @@ public class RoleController {
 	}
 
 	@GetMapping("/edit/{id}")
+	@PreAuthorize("hasAnyAuthority('editRoles')")
 	public String edit(Model m, @PathVariable Long id) {
 		m.addAttribute("rolesMenu", true);
 		m.addAttribute("role", roleRepository.findById(id));
@@ -57,12 +61,14 @@ public class RoleController {
 	}
 
 	@GetMapping("/delete/{id}")
+	@PreAuthorize("hasAnyAuthority('editRoles')")
 	public String delete(Model m, @PathVariable Long id) {
 		roleRepository.delete(id);
 		return "redirect:/roles";
 	}
 
 	@GetMapping("/create")
+	@PreAuthorize("hasAnyAuthority('createRoles')")
 	public String create(Model m) {
 		Role e = new Role();
 		m.addAttribute("rolesMenu", true);
@@ -71,6 +77,7 @@ public class RoleController {
 	}
 
 	@PostMapping("/save")
+	@PreAuthorize("hasAnyAuthority('createRoles')")
 	public String save(Role e, Model m, RedirectAttributes redirect) {
 		Status s = null;
 		Long id = e.getId();
@@ -94,6 +101,7 @@ public class RoleController {
 	}
 
 	@GetMapping("/matrix/{id}")
+	@PreAuthorize("hasAnyAuthority('viewRoleMatrix')")
 	public String indexMatrix(Model m, @PathVariable Long id) {
 		permissionRepository.setOrderBy(" order by p.name asc");
 		m.addAttribute("rolesMenu", true);
@@ -103,6 +111,7 @@ public class RoleController {
 	}
 
 	@PostMapping("/matrix/{id}")
+	@PreAuthorize("hasAnyAuthority('viewRoleMatrix')")
 	public String searchMatrix(Model m, String search, @PathVariable Long id) {
 		m.addAttribute("search", search);
 		permissionRepository.setOrderBy(" order by p.name asc");
@@ -117,6 +126,7 @@ public class RoleController {
 	}
 
 	@PostMapping("/matrix/save")
+	@PreAuthorize("hasAnyAuthority('createRoleMatrix')")
 	public String saveMatrix(Role e, Model m, RedirectAttributes redirect) {
 		roleRepository.manageMatrix(e);
 		return "redirect:/roles";

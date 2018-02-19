@@ -13,9 +13,10 @@
 		<p sec:authorize="isAuthenticated()">
 			You are welcome, <i th:text="${user.username}"></i>
 		</p>
-		<p sec:authorize="!isAuthenticated()">
+		<div sec:authorize="!isAuthenticated()">
+			<p th:text="${msg}"></p>
 			You should login to use this platform. <a th:href="@{/login}">Login</a>
-		</p>
+		</div>
 	</section>
 </body>
 </html>

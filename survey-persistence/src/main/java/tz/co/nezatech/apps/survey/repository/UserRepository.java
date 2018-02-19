@@ -108,6 +108,10 @@ public class UserRepository extends BaseDataRepository<User> {
 
 		return ps;
 	}
+	@Override
+	public PreparedStatement psDeleteLinked(long id, Connection conn) {
+		return null;
+	}
 
 	@Override
 	public JdbcTemplate getJdbcTemplate() {

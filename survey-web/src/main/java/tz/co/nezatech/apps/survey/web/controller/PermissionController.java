@@ -22,7 +22,7 @@ import tz.co.nezatech.apps.util.nezadb.model.Status;
 
 @Controller
 @RequestMapping("/permissions")
-@PreAuthorize("hasRole('Root')")
+@PreAuthorize("hasAnyAuthority('managePermissions')")
 public class PermissionController {
 	@Autowired
 	RoleRepository roleRepository;
@@ -30,16 +30,19 @@ public class PermissionController {
 	PermissionRepository permissionRepository;
 
 	@GetMapping()
+	@PreAuthorize("hasAnyAuthority('viewPermissions')")
 	public String index(Model m) {
 		permissionRepository.setOrderBy(" order by p.name asc");
 		List<Permission> permissions = permissionRepository.getAll();
 		m.addAttribute("permissionsMenu", true);
 		m.addAttribute("permissions", permissions);
 
+		
 		return "permissions/index";
 	}
 
 	@PostMapping()
+	@PreAuthorize("hasAnyAuthority('viewPermissions')")
 	public String search(Model m, String search) {
 		permissionRepository.setOrderBy(" order by p.name asc");
 		m.addAttribute("search", search);
@@ -53,6 +56,7 @@ public class PermissionController {
 	}
 
 	@GetMapping("/edit/{id}")
+	@PreAuthorize("hasAnyAuthority('editPermissions')")
 	public String edit(Model m, @PathVariable Integer id) {
 		List<Permission> parents = permissionRepository.getAll();
 		Permission p = permissionRepository.findById(id);
@@ -71,6 +75,7 @@ public class PermissionController {
 	}
 
 	@GetMapping("/create")
+	@PreAuthorize("hasAnyAuthority('createPermissions')")
 	public String create(Model m) {
 		List<Permission> parents = permissionRepository.getAll();
 		Permission p = new Permission();
@@ -81,6 +86,7 @@ public class PermissionController {
 	}
 
 	@PostMapping("/save")
+	@PreAuthorize("hasAnyAuthority('createPermissions')")
 	public String save(Permission p, Model m, RedirectAttributes redirect) {
 		Status s = null;
 		Long id = p.getId();

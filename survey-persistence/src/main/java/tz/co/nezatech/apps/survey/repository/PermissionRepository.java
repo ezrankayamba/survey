@@ -107,6 +107,10 @@ public class PermissionRepository extends BaseDataRepository<Permission> {
 
 		return ps;
 	}
+	@Override
+	public PreparedStatement psDeleteLinked(long id, Connection conn) {
+		return null;
+	}
 
 	@Override
 	public JdbcTemplate getJdbcTemplate() {

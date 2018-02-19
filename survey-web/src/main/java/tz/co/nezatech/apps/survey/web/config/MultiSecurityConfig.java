@@ -40,6 +40,7 @@ public class MultiSecurityConfig {
 	public static class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.antMatcher("/api/**").authorizeRequests().anyRequest().authenticated().and().httpBasic();
+			http.csrf().disable();
 		}
 	}
 
@@ -48,8 +49,8 @@ public class MultiSecurityConfig {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.authorizeRequests().antMatchers("/", "/css/**", "/js/**", "/img/**", "/fonts/**").permitAll()
-					.antMatchers("/", "/home", "/users/pwd/**").permitAll().anyRequest().authenticated().and()
+			http.authorizeRequests().antMatchers("/", "/css/**", "/js/**", "/img/**", "/fonts/**", "/libs/**").permitAll()
+					.antMatchers("/", "/home", "/pwd/verify/**").permitAll().anyRequest().authenticated().and()
 					.formLogin().loginPage("/login").successForwardUrl("/home").failureUrl("/login?error=true")
 					.permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 					.logoutSuccessUrl("/login?logout=true").permitAll();

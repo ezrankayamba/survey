@@ -1,34 +1,32 @@
 package tz.co.nezatech.apps.survey.web.service;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import tz.co.nezatech.apps.survey.web.config.ViewLayoutBasedHandler;
+
 @Component
-@PropertySource("classpath:hbs.properties")
 public class EmailServiceImpl implements EmailService {
 
 	@Autowired
-	public JavaMailSender emailSender;
-	@Value("${context.path}")
-	String contextPath;
+	public JavaMailSender emailSender; 
+	private static final Logger logger = LoggerFactory.getLogger(ViewLayoutBasedHandler.class);
+
 
 	@Override
+	@Async("emailNotificationTaskExecutor")
 	public void sendMail(String from, String to, String subject, String msg) {
 		try {
-
 			MimeMessage message = emailSender.createMimeMessage();
-
 			message.setSubject(subject);
 			MimeMessageHelper helper;
 			helper = new MimeMessageHelper(message, true);
@@ -37,19 +35,16 @@ public class EmailServiceImpl implements EmailService {
 			helper.setText(msg, true);
 			emailSender.send(message);
 		} catch (MessagingException ex) {
-			Logger.getLogger(EmailServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+			logger.error(ex.getMessage());
 		}
 	}
 
-	/**
-	 * HttpServletRequest req, starting with /...
-	 */
 	@Override
 	public String url(String path, HttpServletRequest req) {
-		// String baseUrl = req.getRequestURI().split("/")[0];
+		String contextPath=req.getContextPath();
 		String baseUrl = String.format("%s://%s:%d", req.getScheme(), req.getServerName(), req.getServerPort());
 		StringBuilder sb = new StringBuilder(baseUrl);
-		sb.append("/").append(contextPath).append(path);
+		sb.append(contextPath).append(path);
 		return sb.toString();
 	}
 }

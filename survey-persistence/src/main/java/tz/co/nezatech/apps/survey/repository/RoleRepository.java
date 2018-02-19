@@ -91,6 +91,11 @@ public class RoleRepository extends BaseDataRepository<Role> {
 	}
 
 	@Override
+	public PreparedStatement psDeleteLinked(long id, Connection conn) {
+		return null;
+	}
+
+	@Override
 	public JdbcTemplate getJdbcTemplate() {
 		return this.jdbcTemplate;
 	}
@@ -137,7 +142,16 @@ public class RoleRepository extends BaseDataRepository<Role> {
 		}
 
 		// Inserts
-		getJdbcTemplate().batchUpdate("INSERT INTO tbl_role_permission (permission_id, role_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE permission_id=permission_id ",
+		matrixInserts(inserts, e);
+
+		// Deletes
+		matrixDeletes(deletes, e);
+	}
+
+	public void matrixInserts(final List<Long> inserts, final Role e) {
+		// Inserts
+		getJdbcTemplate().batchUpdate(
+				"INSERT INTO tbl_role_permission (permission_id, role_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE permission_id=permission_id ",
 				new BatchPreparedStatementSetter() {
 
 					@Override
@@ -152,7 +166,9 @@ public class RoleRepository extends BaseDataRepository<Role> {
 						return inserts.size();
 					}
 				});
+	}
 
+	public void matrixDeletes(final List<Long> deletes, final Role e) {
 		// Deletes
 		getJdbcTemplate().batchUpdate("DELETE FROM tbl_role_permission where permission_id=? and role_id=? ",
 				new BatchPreparedStatementSetter() {

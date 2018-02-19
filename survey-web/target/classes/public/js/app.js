@@ -1,7 +1,7 @@
 $(document).ready(
 		function() {
 
-			$(document).foundation();
+			
 			function guid() {
 				function s4() {
 					return Math.floor((1 + Math.random()) * 0x10000).toString(
@@ -20,8 +20,17 @@ $(document).ready(
 
 			if ((new RegExp(formsCreate).test(currentUrl))
 					| (new RegExp(formsEdit).test(currentUrl))) {
-				
+
 				initFormReposTree();
 			}
 
+			var fiList = "(.?){1,}\/instances\/repos\/((.?){1,})$";
+			if ((new RegExp(fiList).test(currentUrl))
+					| (new RegExp(formsEdit).test(currentUrl))) {
+				initFormInstancesList();
+			}
+
+			
+			//initialize foundation the last
+			$(document).foundation();
 		});

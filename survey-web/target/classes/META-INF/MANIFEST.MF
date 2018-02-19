@@ -3,9 +3,42 @@ Implementation-Title: survey-web
 Implementation-Version: 1.0
 Built-By: nkayamba
 Implementation-Vendor-Id: tz.co.nezatech.apps.survey
+Class-Path: lib/spring-boot-starter-web-1.5.9.RELEASE.jar lib/spring-b
+ oot-starter-1.5.9.RELEASE.jar lib/spring-boot-starter-logging-1.5.9.R
+ ELEASE.jar lib/logback-classic-1.1.11.jar lib/logback-core-1.1.11.jar
+  lib/jcl-over-slf4j-1.7.25.jar lib/jul-to-slf4j-1.7.25.jar lib/log4j-
+ over-slf4j-1.7.25.jar lib/spring-core-4.3.13.RELEASE.jar lib/snakeyam
+ l-1.17.jar lib/spring-boot-starter-tomcat-1.5.9.RELEASE.jar lib/tomca
+ t-embed-core-8.5.23.jar lib/tomcat-annotations-api-8.5.23.jar lib/tom
+ cat-embed-el-8.5.23.jar lib/tomcat-embed-websocket-8.5.23.jar lib/hib
+ ernate-validator-5.3.6.Final.jar lib/validation-api-1.1.0.Final.jar l
+ ib/jboss-logging-3.3.1.Final.jar lib/classmate-1.3.4.jar lib/jackson-
+ databind-2.8.10.jar lib/jackson-annotations-2.8.0.jar lib/jackson-cor
+ e-2.8.10.jar lib/spring-web-4.3.13.RELEASE.jar lib/spring-beans-4.3.1
+ 3.RELEASE.jar lib/spring-webmvc-4.3.13.RELEASE.jar lib/spring-express
+ ion-4.3.13.RELEASE.jar lib/spring-boot-starter-security-1.5.9.RELEASE
+ .jar lib/spring-aop-4.3.13.RELEASE.jar lib/spring-security-config-4.2
+ .3.RELEASE.jar lib/spring-security-core-4.2.3.RELEASE.jar lib/spring-
+ security-web-4.2.3.RELEASE.jar lib/spring-boot-starter-mail-1.5.9.REL
+ EASE.jar lib/spring-context-4.3.13.RELEASE.jar lib/spring-context-sup
+ port-4.3.13.RELEASE.jar lib/javax.mail-1.5.6.jar lib/activation-1.1.j
+ ar lib/spring-boot-starter-thymeleaf-1.5.9.RELEASE.jar lib/thymeleaf-
+ spring4-2.1.6.RELEASE.jar lib/thymeleaf-2.1.6.RELEASE.jar lib/ognl-3.
+ 0.8.jar lib/unbescape-1.1.0.RELEASE.jar lib/thymeleaf-layout-dialect-
+ 1.4.0.jar lib/groovy-2.4.13.jar lib/thymeleaf-extras-springsecurity4-
+ 2.1.3.RELEASE.jar lib/spring-boot-devtools-1.5.9.RELEASE.jar lib/spri
+ ng-boot-1.5.9.RELEASE.jar lib/spring-boot-autoconfigure-1.5.9.RELEASE
+ .jar lib/survey-persistence-1.0.jar lib/spring-boot-starter-jdbc-1.5.
+ 9.RELEASE.jar lib/tomcat-jdbc-8.5.23.jar lib/tomcat-juli-8.5.23.jar l
+ ib/spring-jdbc-4.3.13.RELEASE.jar lib/spring-tx-4.3.13.RELEASE.jar li
+ b/nezadb-1.0.1.jar lib/mysql-connector-java-5.1.44.jar lib/gson-2.8.2
+ .jar lib/reflections-0.9.10.jar lib/guava-15.0.jar lib/javassist-3.21
+ .0-GA.jar lib/annotations-2.0.1.jar lib/slf4j-api-1.7.25.jar lib/log4
+ j-slf4j-impl-2.7.jar lib/log4j-api-2.7.jar
 Build-Jdk: 1.8.0_51
 Implementation-URL: http://projects.spring.io/spring-boot/survey/surve
  y-web/
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
+Main-Class: tz.co.nezatech.apps.survey.web.Application
 
