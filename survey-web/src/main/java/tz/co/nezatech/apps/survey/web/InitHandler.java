@@ -52,12 +52,12 @@ public class InitHandler implements ApplicationListener<ApplicationReadyEvent> {
 				String strClsAuth = clsPreAuth.value();
 				Matcher matcher = pattern.matcher(strClsAuth);
 				String p = null;
-				if (matcher.find()) {
-					p = matcher.group(1);
+				if (matcher.find() || strClsAuth.equalsIgnoreCase("permitAll")) {
+					p = strClsAuth.equalsIgnoreCase("permitAll") ? "permitAll" : matcher.group(1);
 					logger.debug("\tPermission: " + p);
 					List<Permission> tmp = permissionRepository.getAll("p.name", p);
 					Permission parentPermission = null;
-					if (tmp.isEmpty()) {
+					if (tmp.isEmpty() && !p.equalsIgnoreCase("permitAll")) {
 						parentPermission = new Permission(p, p);
 						Status s = permissionRepository.create(parentPermission);
 						if (!s.isSuccess()) {
@@ -66,9 +66,11 @@ public class InitHandler implements ApplicationListener<ApplicationReadyEvent> {
 						inserts.add(s.getGeneratedId());
 						parentPermission = permissionRepository.findById(s.getGeneratedId());
 					} else {
-						parentPermission = tmp.get(0);
-						parentPermission.setName(p);
-						permissionRepository.update(parentPermission);
+						if(!p.equalsIgnoreCase("permitAll")) {
+							parentPermission = tmp.get(0);
+							parentPermission.setName(p);
+							permissionRepository.update(parentPermission);
+						}						
 					}
 
 					Reflections refM = new Reflections(
@@ -95,8 +97,8 @@ public class InitHandler implements ApplicationListener<ApplicationReadyEvent> {
 									throw new Exception(s.getMessage());
 								}
 								inserts.add(s.getGeneratedId());
-							}else {
-								permission=tmp.get(0);
+							} else {
+								permission = tmp.get(0);
 								permission.setName(mp);
 								permissionRepository.update(permission);
 							}

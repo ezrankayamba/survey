@@ -27,6 +27,7 @@ import tz.co.nezatech.apps.survey.web.service.EmailService;
 
 @Controller
 @RequestMapping("/pwd")
+@PreAuthorize("permitAll")
 public class UserPwdController {
 	@Autowired
 	RoleRepository roleRepository;
