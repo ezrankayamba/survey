@@ -4,6 +4,7 @@ body {
 
 #logo {
 	background-image: url(../img/logo.png);
+	background-size: contain;
 	width: 200px;
 	height: 50px;
 	background-repeat: no-repeat;
@@ -329,4 +330,23 @@ td.td-topvalign {
 
 .tabs-title>a:focus, .tabs-title>a[aria-selected='true'] {
 	background: #ECEFF1;
+}
+
+/* Media queries */
+@media screen and (max-width: 450px) {
+	#list tr td:last-child, #list tr th:last-child {
+		width: 100%;
+		white-space: nowrap;
+	}
+	#logo {
+		width: 96px;
+		height: 24px;
+	}
+}
+
+@media screen and (min-width: 760px) {
+	#list tr td:last-child, #list tr th:last-child {
+		width: 1px;
+		white-space: nowrap;
+	}
 }
