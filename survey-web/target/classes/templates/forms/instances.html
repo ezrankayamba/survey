@@ -65,13 +65,12 @@
 										th:text="${#dates.format(e.lastUpdate, 'dd-MM-yyyy HH:mm')}"></td>
 									<td class="td-topvalign">
 										<div class="topinfo">
-											<span style="white-space: nowrap;"><i
-												th:text="${e.uuid}"></i>
+											<span style="white-space: nowrap;">Form data:
 												<button style="float: right;" th:attr="data-uuid=${e.uuid}"
-													class="expclp-btn button tiny hollow">View</button></span><input
-												th:id="${'json-'+e.uuid}" th:value="${e.json}" type="hidden" />
-												<input
-												th:id="${'name-'+e.uuid}" th:value="${e.name}" type="hidden" />
+													class="expclp-btn button tiny hollow">View</button>
+											</span><input th:id="${'json-'+e.uuid}" th:value="${e.json}"
+												type="hidden" /> <input th:id="${'name-'+e.uuid}"
+												th:value="${e.name}" type="hidden" />
 											<ul th:id="${e.uuid}" class="data-ui">
 
 											</ul>

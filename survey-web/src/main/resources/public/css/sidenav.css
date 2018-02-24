@@ -1,0 +1,36 @@
+.sidenav {
+	position: relative;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	transition: 0.5s;
+}
+
+#sidebarhbg {
+	display: none;
+	text-decoration: none;
+}
+
+#mainContent {
+	transition: margin-left .5s;
+	padding: 20px;
+}
+
+@media screen and (max-width: 450px) {
+	#leftSidebar {
+		display: none;
+	}
+	#sidebarhbg {
+		display: block;
+	}
+	#list tr td:last-child, #list tr th:last-child {
+		width: 100%;
+		white-space: nowrap;
+	}
+}
+@media screen and (min-width: 760px) {
+	#list tr td:last-child, #list tr th:last-child {
+		width: 1px;
+		white-space: nowrap;
+	}
+}

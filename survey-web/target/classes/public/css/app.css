@@ -205,7 +205,7 @@ table#list>caption {
 }
 
 #list tr td:last-child, #list tr th:last-child {
-	width: 1%;
+	/*width: 1px;*/
 	white-space: nowrap;
 }
 

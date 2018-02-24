@@ -1,7 +1,16 @@
+function openNav() {
+	if(document.getElementById("leftSidebar").style.display === 'block'){
+		closeNav();
+	}else{
+		document.getElementById("leftSidebar").style.display = "block";
+	}
+}
+function closeNav() {
+	document.getElementById("leftSidebar").style.display = "none";
+}
+
 $(document).ready(
 		function() {
-
-			
 			function guid() {
 				function s4() {
 					return Math.floor((1 + Math.random()) * 0x10000).toString(
@@ -10,27 +19,17 @@ $(document).ready(
 				return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-'
 						+ s4() + s4() + s4();
 			}
-
 			let currentUrl = window.location.href;
-
-			console.log("Current Url: " + currentUrl);
-
 			var formsCreate = "(.?){1,}\/forms\/create$";
 			var formsEdit = "(.?){1,}\/forms\/edit\/((.?){1,})$";
-
 			if ((new RegExp(formsCreate).test(currentUrl))
 					| (new RegExp(formsEdit).test(currentUrl))) {
-
 				initFormReposTree();
 			}
-
 			var fiList = "(.?){1,}\/instances\/repos\/((.?){1,})$";
 			if ((new RegExp(fiList).test(currentUrl))
 					| (new RegExp(formsEdit).test(currentUrl))) {
 				initFormInstancesList();
 			}
-
-			
-			//initialize foundation the last
 			$(document).foundation();
 		});
