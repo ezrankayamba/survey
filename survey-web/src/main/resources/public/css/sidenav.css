@@ -19,6 +19,7 @@
 @media screen and (max-width: 450px) {
 	#leftSidebar {
 		display: none;
+		font-size: 80%;
 	}
 	#sidebarhbg {
 		display: block;
