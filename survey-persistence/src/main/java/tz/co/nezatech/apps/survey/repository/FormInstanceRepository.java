@@ -57,16 +57,16 @@ public class FormInstanceRepository extends BaseDataRepository<FormInstance> {
 		PreparedStatement ps = null;
 		try {
 			ps = conn.prepareStatement(
-					"insert into tbl_form_instance(uuid, name, record_date, status, last_update, json, form_id, recorded_by) values (?, ?, ?, ?, ?, ?, ?, ?)",
+					"insert into tbl_form_instance(uuid, name, record_date, status, json, form_id, recorded_by) values (?, ?, ?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, entity.getUuid());
 			ps.setString(2, entity.getName());
 			ps.setTimestamp(3, toSQLTimestamp(entity.getRecordDate()));
 			ps.setInt(4, entity.getStatus());
-			ps.setTimestamp(5, toSQLTimestamp(entity.getRecordDate()));
-			ps.setString(6, entity.getJson());
-			ps.setLong(7, entity.getForm().getId());
-			ps.setLong(8, entity.getRecordedBy().getId());
+			//ps.setTimestamp(5, toSQLTimestamp(entity.getRecordDate()));
+			ps.setString(5, entity.getJson());
+			ps.setLong(6, entity.getForm().getId());
+			ps.setLong(7, entity.getRecordedBy().getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -79,16 +79,16 @@ public class FormInstanceRepository extends BaseDataRepository<FormInstance> {
 		PreparedStatement ps = null;
 		try {
 			ps = conn.prepareStatement(
-					"update tbl_form_instance set uuid=?, name=?, record_date=?, status=?, last_update=?, json=?, form_id=?, recorded_by=? where id=?");
+					"update tbl_form_instance set uuid=?, name=?, record_date=?, status=?, json=?, form_id=?, recorded_by=? where id=?");
 			ps.setString(1, entity.getUuid());
 			ps.setString(2, entity.getName());
 			ps.setTimestamp(3, toSQLTimestamp(entity.getRecordDate()));
 			ps.setInt(4, entity.getStatus());
-			ps.setTimestamp(5, toSQLTimestamp(entity.getRecordDate()));
-			ps.setString(6, entity.getJson());
-			ps.setLong(7, entity.getForm().getId());
-			ps.setLong(8, entity.getRecordedBy().getId());
-			ps.setLong(9, entity.getId());
+			//ps.setTimestamp(5, toSQLTimestamp(entity.getRecordDate()));
+			ps.setString(5, entity.getJson());
+			ps.setLong(6, entity.getForm().getId());
+			ps.setLong(7, entity.getRecordedBy().getId());
+			ps.setLong(8, entity.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -134,17 +134,17 @@ public class FormInstanceRepository extends BaseDataRepository<FormInstance> {
 			}
 			if(formId ==0) {
 				ps = conn.prepareStatement(
-						this.sqlFindAll() + " and (fi.name like ? or fi.uuid like ?) " + this.getOrderBy());
-				for (int i = 1; i <= 2; i++) {
+						this.sqlFindAll() + " and (fi.name like ? or fi.uuid like ? or fi.json like ?) " + this.getOrderBy());
+				for (int i = 1; i <= 3; i++) {
 					ps.setString(i, "%" + search + "%");
 				}
 			}else {
 				ps = conn.prepareStatement(
-						this.sqlFindAll() + " and (fi.name like ? or fi.uuid like ?) and form_id = ? " + this.getOrderBy());
-				for (int i = 1; i <= 2; i++) {
+						this.sqlFindAll() + " and (fi.name like ? or fi.uuid like ? or fi.json like ?) and form_id = ? " + this.getOrderBy());
+				for (int i = 1; i <= 3; i++) {
 					ps.setString(i, "%" + search + "%");
 				}
-				ps.setLong(3, formId);
+				ps.setLong(4, formId);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

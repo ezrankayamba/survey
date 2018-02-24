@@ -103,7 +103,7 @@ public class RoleController {
 	@GetMapping("/matrix/{id}")
 	@PreAuthorize("hasAnyAuthority('viewRoleMatrix')")
 	public String indexMatrix(Model m, @PathVariable Long id) {
-		permissionRepository.setOrderBy(" order by p.name asc");
+		permissionRepository.setOrderBy(" order by prtchld asc");
 		m.addAttribute("rolesMenu", true);
 		m.addAttribute("role", roleRepository.findById(id));
 		m.addAttribute("permissions", permissionRepository.matrix(id));

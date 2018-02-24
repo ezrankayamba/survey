@@ -17,7 +17,7 @@
 				id="formId" th:value="${form.id}" />
 
 			<div class="grid-x">
-				<div class="cell large-4 row-cell" >
+				<div class="cell large-4 row-cell">
 					<label>Name <input id="reposName" name="name" type="text"
 						placeholder="Name of form repository" th:value="${form.name}" />
 					</label>
@@ -60,9 +60,9 @@
 										<option value="editGroup">Edit Group</option>
 									</select> <label>Name</label><input name="_name" /> <label>Label
 									</label><input name="label" /> <label>Type </label><input name="type" />
-									<label>Regex </label><input name="regex" />
-									<label>Regex Message </label><input name="regexMessage" />
-									<input type="hidden" id="nodeIdRef" name="nodeIdRef" />
+									<label>Regex </label><input name="regex" /> <label>Regex
+										Message </label><input name="regexMessage" /> <input type="hidden"
+										id="nodeIdRef" name="nodeIdRef" />
 									<div class="controls">
 										<button type="button" onclick="deleteSelected()"
 											style="margin: 1rem 0;" class="button tiny hollow alert">Delete
@@ -80,10 +80,10 @@
 					</div>
 				</div>
 			</div>
-			<p>
-				<input onclick="formSubmitOverall()" name="submit" type="submit"
-					class="button expanded" value="Save"></input>
-			</p>
+			<div class="button-group expanded"><a class="button alert hollow" th:href="@{/forms}">Cancel (Ignore changes)</a> <input
+				onclick="formSubmitOverall()" name="submit" type="submit"
+				class="button" value="Save"></input>
+			</div>
 		</form>
 	</div>
 </body>

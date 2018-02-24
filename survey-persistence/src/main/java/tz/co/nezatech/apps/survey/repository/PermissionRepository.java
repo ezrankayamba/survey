@@ -45,7 +45,7 @@ public class PermissionRepository extends BaseDataRepository<Permission> {
 
 	@Override
 	public String sqlFindAll() {
-		return "select p.*, prt.name as parent_name, prt.description as parent_description, 0 as enabled from tbl_permission p left join tbl_permission prt on p.parent=prt.id where 1=1 ";
+		return "select p.*, prt.name as parent_name, prt.description as parent_description, 0 as enabled, concat(prt.name, ' ', p.name) as prtchld from tbl_permission p left join tbl_permission prt on p.parent=prt.id where 1=1 ";
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public class PermissionRepository extends BaseDataRepository<Permission> {
 	}
 
 	private String matrixSql() {
-		String sql = "select p.*, prt.name as parent_name, prt.description as parent_description, IF(rp.role_id is null, 0, 1) as enabled from tbl_permission p left join tbl_permission prt on p.parent=prt.id left outer join tbl_role_permission rp on p.id=rp.permission_id and (rp.role_id is null or rp.role_id = ?) where 1=1 ";
+		String sql = "select p.*, prt.name as parent_name, prt.description as parent_description, IF(rp.role_id is null, 0, 1) as enabled, concat(prt.name, ' ', p.name) as prtchld from tbl_permission p left join tbl_permission prt on p.parent=prt.id left outer join tbl_role_permission rp on p.id=rp.permission_id and (rp.role_id is null or rp.role_id = ?) where 1=1 ";
 		return sql;
 	}
 

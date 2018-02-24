@@ -16,8 +16,16 @@
 	<div class="row" style="text-align: center;">
 		<h1 class="callout alert">Error Page</h1>
 		<p th:text="${errorMsg}"></p>
-		<a class="button hollow" th:href="@{/}">Home page</a>
-		 Or <a class="button hollow alert" th:href="@{/logout}">Logout</a>
+		<a class="button hollow" th:href="@{/}">Home page</a> Or <a
+			class="button hollow alert" th:href="@{/logout}">Logout</a>
+
+		<div
+			th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
+			<h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
+			<p th:utext="${errorMessage}">Error
+				java.lang.NullPointerException</p>
+			<a href="index.html" th:href="@{/index.html}">Back to Home Page</a>
+		</div>
 	</div>
 </body>
 </html>

@@ -3,7 +3,6 @@ function initFormInstancesList() {
 	var locations = [];
 	for (var i = 0; i < buttons.length; i++) {
 		var btn = buttons[i];
-
 		btn.addEventListener("click", function() {
 			var uuid = this.dataset.uuid;
 			var x = document.getElementById(uuid);
@@ -23,12 +22,8 @@ function initFormInstancesList() {
 		var topUI = document.getElementById(uuid);
 		topUI.style.display = "none";
 		var jsonText = document.getElementById("json-" + uuid).value;
-		console.log(uuid);
 		var json = JSON.parse(jsonText);
-		// console.log(json);
 		var groups = json.groups;
-		console.log(groups);
-
 		for (var j = 0; j < groups.length; j++) {
 			var group = groups[j];
 			if (group.type === 'GPSLocationCapture') {
@@ -41,10 +36,10 @@ function initFormInstancesList() {
 						loc.longitude = input.value;
 					}
 				}
-
 				loc.name = document.getElementById("name-" + uuid).value;
-
-				locations.push(loc);
+				if (loc.latitude) {
+					locations.push(loc);
+				}
 			}
 			var grpLi = document.createElement("li");
 			var grpLabel = null;
@@ -55,7 +50,6 @@ function initFormInstancesList() {
 			}
 			grpLi.appendChild(grpLabel);
 			topUI.appendChild(grpLi);
-
 			var inputs = group.inputs;
 			var grpUL = document.createElement("ul");
 			grpLi.appendChild(grpUL);
@@ -75,7 +69,6 @@ function initFormInstancesList() {
 			}
 		}
 	}
-
 	var totLat = 0;
 	var totLon = 0;
 	var cords = [];
@@ -89,28 +82,20 @@ function initFormInstancesList() {
 	}
 	var avgLat = totLat / locations.length;
 	var avgLon = totLon / locations.length;
-	console.log(avgLat, avgLon);
-
 	var mymap = L.map('themap');
 	mymap.on('load', function() {
 		$('#fi-tabs').on('change.zf.tabs', function() {
 			if ($('#fi-map:visible').length) {
-				console.log('Map panel shown.');
 				mymap.invalidateSize(false);
 				mymap.fitBounds(cords, {
-					padding : [ 50, 50 ]
+					padding : [ 10, 10 ]
 				});
 			}
 		});
 	});
 
 	mymap.setView([ avgLat, avgLon ], 13);
-	var tile1 = L
-			.tileLayer(
-					'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-					{
-						attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-					});
+	var tile1 = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {});
 	tile1.addTo(mymap);
 
 	for (var i = 0; i < locations.length; i++) {
@@ -120,7 +105,4 @@ function initFormInstancesList() {
 			marker.bindPopup("<b>" + loc.name + "</b>").openPopup();
 		}
 	}
-
-	// mymap.fitBounds(cords);
-
 }
