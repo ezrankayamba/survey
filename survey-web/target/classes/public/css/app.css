@@ -339,8 +339,11 @@ td.td-topvalign {
 		white-space: nowrap;
 	}
 	#logo {
-		width: 96px;
-		height: 24px;
+		width: 120px;
+		height: 32px;
+	}
+	#topBar {
+		font-size: 80%;
 	}
 }
 

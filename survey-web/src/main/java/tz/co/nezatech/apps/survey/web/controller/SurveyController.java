@@ -6,7 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,15 @@ import com.google.gson.Gson;
 
 import tz.co.nezatech.apps.survey.model.Form;
 import tz.co.nezatech.apps.survey.model.FormInstance;
+import tz.co.nezatech.apps.survey.model.Setup;
 import tz.co.nezatech.apps.survey.model.User;
 import tz.co.nezatech.apps.survey.repository.FormInstanceRepository;
 import tz.co.nezatech.apps.survey.repository.FormRepository;
+import tz.co.nezatech.apps.survey.repository.SetupRepository;
 import tz.co.nezatech.apps.survey.repository.UserRepository;
 import tz.co.nezatech.apps.survey.web.util.DummyFormInstance;
 import tz.co.nezatech.apps.survey.web.util.Instance;
+import tz.co.nezatech.apps.survey.web.util.SetupQuery;
 import tz.co.nezatech.apps.util.nezadb.model.Status;
 
 @RestController
@@ -39,15 +43,16 @@ public class SurveyController {
 	UserRepository userRepository;
 	@Autowired
 	FormInstanceRepository fiRepository;
+	@Autowired
+	SetupRepository setupRepository;
 
-	Logger logger = Logger.getLogger(SurveyController.class.getName());
+	Logger logger = LoggerFactory.getLogger(SurveyController.class.getName());
 
 	@GetMapping("/forms")
 	@PreAuthorize("hasAnyAuthority('viewSurveyForms')")
 	public List<Form> forms(Principal p) {
 		return formRepository.getAll();
 	}
-	
 
 	@GetMapping("/forms/{id}")
 	@ResponseBody
@@ -96,5 +101,12 @@ public class SurveyController {
 
 		}
 		return s;
+	}
+
+	@PostMapping("/setups")
+	@PreAuthorize("hasAnyAuthority('querySetups')")
+	public List<Setup> setups(@RequestBody SetupQuery q) {
+		logger.debug(String.format("Type: %s, LastUpdate: %s", q.getType(), q.getLastUpdate()));
+		return setupRepository.search(q.getType() + "/" + q.getLastUpdate());
 	}
 }
