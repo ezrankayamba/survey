@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +20,8 @@ import tz.co.nezatech.apps.util.nezadb.repository.BaseDataRepository;
 public class SetupRepository extends BaseDataRepository<Setup> {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	
+	DateFormat df =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Override
 	public RowMapper<Setup> getRowMapper() {
@@ -25,7 +29,7 @@ public class SetupRepository extends BaseDataRepository<Setup> {
 
 			@Override
 			public Setup mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Setup e = new Setup(rs.getString("uuid"), rs.getString("name"), rs.getString("type"));
+				Setup e = new Setup(rs.getString("uuid"), rs.getString("name"), rs.getString("type"), df.format(fromSQLTimestamp(rs.getTimestamp("last_update"))));
 				return e;
 			}
 		};
@@ -77,11 +81,21 @@ public class SetupRepository extends BaseDataRepository<Setup> {
 	public PreparedStatement searchCriteria(String value, Connection conn) {
 		PreparedStatement ps = null;
 		try {
-			ps = conn.prepareStatement(
-					this.sqlFindAll() + " and s.type = ? and s.last_update >= ? " + this.getOrderBy());
-			String []tokens = value.split("/");
-			for (int i = 1; i <= 2; i++) {
-				ps.setString(i, tokens[i-1]);
+			
+			if(value.contains("/")) {
+				String []tokens = value.split("/");
+				ps = conn.prepareStatement(
+						this.sqlFindAll() + " and s.type = ? and s.last_update >= ? " + this.getOrderBy());
+				
+				for (int i = 1; i <= 2; i++) {
+					ps.setString(i, tokens[i-1]);
+				}
+			}else {
+				ps = conn.prepareStatement(
+						this.sqlFindAll() + " and s.last_update >= ? " + this.getOrderBy());
+				for (int i = 1; i <= 1; i++) {
+					ps.setString(i, value);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

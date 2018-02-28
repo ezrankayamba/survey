@@ -106,7 +106,9 @@ public class SurveyController {
 	@PostMapping("/setups")
 	@PreAuthorize("hasAnyAuthority('querySetups')")
 	public List<Setup> setups(@RequestBody SetupQuery q) {
+		setupRepository.setOrderBy("order by s.last_update asc");
 		logger.debug(String.format("Type: %s, LastUpdate: %s", q.getType(), q.getLastUpdate()));
-		return setupRepository.search(q.getType() + "/" + q.getLastUpdate());
+		String value=q.getType().toLowerCase().equals("all")?q.getLastUpdate():q.getType() + "/" + q.getLastUpdate();
+		return setupRepository.search(value);
 	}
 }

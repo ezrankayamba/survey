@@ -6,15 +6,17 @@ public class Setup extends BaseData{
 	String uuid;
 	String name;
 	String type;
+	String lastUpdate;
 	
 	public Setup() {
 		super();
 	}
-	public Setup(String uuid, String name, String type) {
+	public Setup(String uuid, String name, String type, String lastUpdate) {
 		super();
 		this.uuid = uuid;
 		this.name = name;
 		this.type = type;
+		this.lastUpdate=lastUpdate;
 	}
 	public String getUuid() {
 		return uuid;
@@ -33,6 +35,12 @@ public class Setup extends BaseData{
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getLastUpdate() {
+		return lastUpdate;
+	}
+	public void setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 	
 }
