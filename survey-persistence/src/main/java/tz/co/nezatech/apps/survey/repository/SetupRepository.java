@@ -85,14 +85,14 @@ public class SetupRepository extends BaseDataRepository<Setup> {
 			if(value.contains("/")) {
 				String []tokens = value.split("/");
 				ps = conn.prepareStatement(
-						this.sqlFindAll() + " and s.type = ? and s.last_update >= ? " + this.getOrderBy());
+						this.sqlFindAll() + " and s.type = ? and s.last_update > ? " + this.getOrderBy());
 				
 				for (int i = 1; i <= 2; i++) {
 					ps.setString(i, tokens[i-1]);
 				}
 			}else {
 				ps = conn.prepareStatement(
-						this.sqlFindAll() + " and s.last_update >= ? " + this.getOrderBy());
+						this.sqlFindAll() + " and s.last_update > ? " + this.getOrderBy());
 				for (int i = 1; i <= 1; i++) {
 					ps.setString(i, value);
 				}

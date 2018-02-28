@@ -42,5 +42,8 @@ public class Setup extends BaseData{
 	public void setLastUpdate(String lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
-	
+	@Override
+	public String toString() {
+		return String.format("Type: %s, Name: %s, LastUpdate: %s", getType(), getName(), getLastUpdate());
+	}
 }
