@@ -332,6 +332,18 @@ td.td-topvalign {
 	background: #ECEFF1;
 }
 
+/*Loading wait indicator */
+#pageloading {
+	background: url(img/Blocks-1s-200px.gif) no-repeat;
+	position: absolute;
+	top: 30%;
+	top: calc(50% - 100px);
+    left: 40%;
+    left: calc(50% - 100px);
+    width:200px;
+    height:200px;
+}
+
 /* Media queries */
 @media screen and (max-width: 450px) {
 	#list tr td:last-child, #list tr th:last-child {
