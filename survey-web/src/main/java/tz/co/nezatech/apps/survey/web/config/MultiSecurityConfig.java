@@ -49,13 +49,15 @@ public class MultiSecurityConfig {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.authorizeRequests().antMatchers("/", "/css/**", "/js/**", "/img/**", "/fonts/**", "/libs/**").permitAll()
-					.antMatchers("/", "/home", "/pwd/verify/**").permitAll().anyRequest().authenticated().and()
-					.formLogin().loginPage("/login").successForwardUrl("/home").failureUrl("/login?error=true")
+			http.authorizeRequests().antMatchers("/", "/css/**", "/js/**", "/img/**", "/fonts/**", "/libs/**")
+					.permitAll().antMatchers("/", "/home", "/pwd/verify/**").permitAll().anyRequest().authenticated()
+					.and().formLogin().loginPage("/login").successForwardUrl("/home").failureUrl("/login?error=true")
 					.permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 					.logoutSuccessUrl("/login?logout=true").permitAll();
 
 			http.exceptionHandling().accessDeniedPage("/403");
+
+			http.sessionManagement().invalidSessionUrl("/login?p=invalidSession").maximumSessions(2);
 		}
 	}
 }

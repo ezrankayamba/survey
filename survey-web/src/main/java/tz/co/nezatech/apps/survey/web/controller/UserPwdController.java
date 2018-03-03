@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tz.co.nezatech.apps.survey.model.User;
 import tz.co.nezatech.apps.survey.repository.RoleRepository;
 import tz.co.nezatech.apps.survey.repository.UserRepository;
 import tz.co.nezatech.apps.survey.web.MyUtil;
 import tz.co.nezatech.apps.survey.web.service.EmailService;
+import tz.co.nezatech.apps.survey.web.util.FlashData;
+import tz.co.nezatech.apps.util.nezadb.model.Status;
 
 @Controller
 @RequestMapping("/pwd")
@@ -122,11 +125,21 @@ public class UserPwdController {
 
 	@PostMapping("/changepwd")
 	@PreAuthorize("hasAnyAuthority('changePassword')")
-	public String saveChangePwd(Model m, User user) {
+	public String saveChangePwd(Model m, User user, RedirectAttributes redirect) {
 		if (user.getPassword().equals(user.getPassword2())) {
-			userRepository.updateChangePwd(passwordEncoder.encode(user.getPassword()), user.getId());
+			Status s= userRepository.updateChangePwd(passwordEncoder.encode(user.getPassword()), user.getId());
+			FlashData fd = new FlashData(s.getCode(), s.getMessage());
+			if (s.getCode() == 200) {
+				fd.setStyleClass("success");
+			} else {
+				fd.setStyleClass("alert");
+			}
+			redirect.addFlashAttribute("flashData", fd);
 			return "redirect:/";
 		} else {
+			FlashData fd = new FlashData(5000, "Password and confirm password does not match.");
+			fd.setStyleClass("alert");
+			redirect.addFlashAttribute("flashData", fd);
 			return "users/changepwd";
 		}
 	}

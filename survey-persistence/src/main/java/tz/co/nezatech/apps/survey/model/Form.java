@@ -58,6 +58,10 @@ public class Form extends NamedData {
 
 	public void setCount(int count) {
 		this.count = count;
-	}	
+	}
 
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

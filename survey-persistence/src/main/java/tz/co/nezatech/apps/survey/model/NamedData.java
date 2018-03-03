@@ -56,5 +56,4 @@ public class NamedData extends BaseData {
 
 		return this.getId().equals(((NamedData) obj).getId());
 	}
-
 }

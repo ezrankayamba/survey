@@ -139,18 +139,24 @@ public class UserRepository extends BaseDataRepository<User> {
 		return ps;
 	}
 
-	public void updateChangePwd(final String newPassword, final Long id) {
-		getJdbcTemplate().update(new PreparedStatementCreator() {
+	public Status updateChangePwd(final String newPassword, final Long id) {
+		try {
+			getJdbcTemplate().update(new PreparedStatementCreator() {
 
-			@Override
-			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-				PreparedStatement ps = conn
-						.prepareStatement("update tbl_user set reset_on = 0, password=? where id=? ");
-				ps.setString(1, newPassword);
-				ps.setLong(2, id);
-				return ps;
-			}
-		});
+				@Override
+				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+					PreparedStatement ps = conn
+							.prepareStatement("update tbl_user set reset_on = 0, password=? where id=? ");
+					ps.setString(1, newPassword);
+					ps.setLong(2, id);
+					return ps;
+				}
+			});
+			return new Status(200, "Successfully created user id " + id, 0);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Status(500, "User password update failed. Error message: " + e.getMessage(), 0);
+		}
 	}
 
 	public void resetPwd(final User e) {

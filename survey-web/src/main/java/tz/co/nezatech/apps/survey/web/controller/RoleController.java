@@ -19,6 +19,7 @@ import tz.co.nezatech.apps.survey.model.Permission;
 import tz.co.nezatech.apps.survey.model.Role;
 import tz.co.nezatech.apps.survey.repository.PermissionRepository;
 import tz.co.nezatech.apps.survey.repository.RoleRepository;
+import tz.co.nezatech.apps.survey.web.util.FlashData;
 import tz.co.nezatech.apps.util.nezadb.model.Status;
 
 @Controller
@@ -37,7 +38,6 @@ public class RoleController {
 		m.addAttribute("roles", roleRepository.getAll());
 		return "roles/index";
 	}
-	
 
 	@PostMapping()
 	@PreAuthorize("hasAnyAuthority('viewRoles')")
@@ -80,24 +80,19 @@ public class RoleController {
 	@PreAuthorize("hasAnyAuthority('createRoles')")
 	public String save(Role e, Model m, RedirectAttributes redirect) {
 		Status s = null;
-		Long id = e.getId();
 		if (e.getId() != null && e.getId() > 0) {
 			s = roleRepository.update(e);
 		} else {
 			s = roleRepository.create(e);
 		}
-		// redirect.addAttribute("status", s);
-
-		if (s.isSuccess())
-			redirect.addFlashAttribute("success", true).addFlashAttribute("successMessage", s.getMessage())
-					.addFlashAttribute("statusCode", s.getCode());
-		if (!s.isSuccess())
-			redirect.addFlashAttribute("error", true).addFlashAttribute("errorMessage", s.getMessage())
-					.addFlashAttribute("statusCode", s.getCode());
-		if (s.isSuccess())
-			return "redirect:/roles";
-		else
-			return id == null ? "redirect:/roles/create" : "redirect:/roles/edit/" + id;
+		FlashData fd = new FlashData(s.getCode(), s.getMessage());
+		if (s.getCode() == 200) {
+			fd.setStyleClass("success");
+		} else {
+			fd.setStyleClass("alert");
+		}
+		redirect.addFlashAttribute("flashData", fd);
+		return "redirect:/roles";
 	}
 
 	@GetMapping("/matrix/{id}")
@@ -115,7 +110,6 @@ public class RoleController {
 	public String searchMatrix(Model m, String search, @PathVariable Long id) {
 		m.addAttribute("search", search);
 		permissionRepository.setOrderBy(" order by p.name asc");
-		System.out.println("Search: " + search);
 		if (search == null)
 			search = "";
 		List<Permission> permissions = permissionRepository.matrixSearch(id, search);
@@ -128,7 +122,14 @@ public class RoleController {
 	@PostMapping("/matrix/save")
 	@PreAuthorize("hasAnyAuthority('createRoleMatrix')")
 	public String saveMatrix(Role e, Model m, RedirectAttributes redirect) {
-		roleRepository.manageMatrix(e);
+		Status s=roleRepository.manageMatrix(e);
+		FlashData fd = new FlashData(s.getCode(), s.getMessage());
+		if (s.getCode() == 200) {
+			fd.setStyleClass("success");
+		} else {
+			fd.setStyleClass("alert");
+		}
+		redirect.addFlashAttribute("flashData", fd);
 		return "redirect:/roles";
 	}
 

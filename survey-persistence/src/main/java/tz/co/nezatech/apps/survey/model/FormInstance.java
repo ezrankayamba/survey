@@ -101,5 +101,9 @@ public class FormInstance extends BaseData {
 	public void setRecordedBy(User recordedBy) {
 		this.recordedBy = recordedBy;
 	}
-    
+    @Override
+    public String toString() {
+    	// TODO Auto-generated method stub
+    	return getName();
+    }
 }

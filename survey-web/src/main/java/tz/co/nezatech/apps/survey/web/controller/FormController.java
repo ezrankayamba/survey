@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tz.co.nezatech.apps.survey.model.Form;
 import tz.co.nezatech.apps.survey.repository.FormRepository;
+import tz.co.nezatech.apps.survey.web.util.FlashData;
 import tz.co.nezatech.apps.util.nezadb.model.Status;
 
 @Controller
@@ -90,7 +91,13 @@ public class FormController {
 		} else {
 			s = formRepository.create(p);
 		}
-		redirect.addFlashAttribute("result", s);
+		FlashData fd = new FlashData(s.getCode(), s.getMessage());
+		if (s.getCode() == 200) {
+			fd.setStyleClass("success");
+		} else {
+			fd.setStyleClass("alert");
+		}
+		redirect.addFlashAttribute("flashData", fd);
 
 		return "redirect:/forms";
 	}

@@ -27,5 +27,9 @@ public class Permission extends NamedData{
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return getName();
+	}
 }

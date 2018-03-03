@@ -54,7 +54,8 @@
 		<div class="row" id="breadcrumbswrapper">
 			<nav aria-label="You are here:" role="navigation">
 				<ul class="breadcrumbs">
-					<li sec:authorize="isAuthenticated()" id="sidebarhbg" class="sbarswitch"><a onclick="openNav()"><i
+					<li sec:authorize="isAuthenticated()" id="sidebarhbg"
+						class="sbarswitch"><a onclick="openNav()"><i
 							class="fi-list"></i> <span>Menu</span></a></li>
 					<li>Navigation:</li>
 					<th:block th:each="b : ${breadcrumbs}">
@@ -69,25 +70,30 @@
 				<div class="row" th:if="${user != null}">
 					<nav>
 						<ul class="vertical menu">
-							<li>Hi, <i><span
-									th:text="${user.username}">User name</span></i> <br /> <i>You
-									logged in as: <i th:text="${user.role.name}">Role name</i>
+							<li>Hi, <i><span th:text="${user.username}">User
+										name</span></i> <br /> <i>You logged in as: <i
+									th:text="${user.role.name}">Role name</i>
 							</i>
-							<hr/>
+								<hr />
 							</li>
 							<li class="divider"></li>
-							<li sec:authorize="permitAll()" th:classappend="${homeMenu} ? is-active : ''"><a
+							<li sec:authorize="permitAll()"
+								th:classappend="${homeMenu} ? is-active : ''"><a
 								th:href="@{/home}"><i class="fi-home"></i> <span>Home</span></a></li>
-							<li sec:authorize="hasAuthority('manageUsers')" th:classappend="${usersMenu != null} ? is-active : ''"><a
+							<li sec:authorize="hasAuthority('manageUsers')"
+								th:classappend="${usersMenu != null} ? is-active : ''"><a
 								th:href="@{/users}"><i class="fi-torsos-all"></i> <span>Manage
 										Users</span></a></li>
-							<li sec:authorize="hasAuthority('manageRoles')" th:classappend="${rolesMenu != null} ? is-active : ''"><a
+							<li sec:authorize="hasAuthority('manageRoles')"
+								th:classappend="${rolesMenu != null} ? is-active : ''"><a
 								th:href="@{/roles}"><i class="fi-folder-lock"></i> <span>Manage
 										Roles</span></a></li>
-							<li sec:authorize="hasAuthority('manageFormRepos')" th:classappend="${permissionsMenu != null} ? is-active : ''"><a
+							<li sec:authorize="hasAuthority('manageFormRepos')"
+								th:classappend="${permissionsMenu != null} ? is-active : ''"><a
 								th:href="@{/permissions}"><i class="fi-lock"></i> <span>Manage
 										Permissions</span></a></li>
-							<li sec:authorize="hasAuthority('manageFormInstances')" th:classappend="${formsMenu != null} ? is-active : ''"><a
+							<li sec:authorize="hasAuthority('manageFormInstances')"
+								th:classappend="${formsMenu != null} ? is-active : ''"><a
 								th:href="@{/forms}"><i class="fi-clipboard-notes"></i> <span>Manage
 										Form Repos</span></a></li>
 						</ul>
@@ -98,6 +104,16 @@
 			<div sec:authorize="isAuthenticated()" id="mainContent"
 				class="cell large-10 medium-8">
 				<div class="grid-container">
+					<div id="flashMessage" th:if="${flashData}">
+						<div class="callout success" th:classappend="${flashData.styleClass}" data-closable="slide-out-up">
+							<h5>Result code: <b th:text="${flashData.resultCode}"></b></h5>
+							<p th:text="${flashData.message}">Flash message here</p>
+							<button class="close-button" aria-label="Dismiss alert"
+								type="button" data-close="">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</div>
 					<div layout:fragment="content" class="align-left display-panel">Main
 						content</div>
 				</div>

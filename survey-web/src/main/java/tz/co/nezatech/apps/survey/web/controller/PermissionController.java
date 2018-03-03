@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tz.co.nezatech.apps.survey.model.Permission;
 import tz.co.nezatech.apps.survey.repository.PermissionRepository;
 import tz.co.nezatech.apps.survey.repository.RoleRepository;
+import tz.co.nezatech.apps.survey.web.util.FlashData;
 import tz.co.nezatech.apps.util.nezadb.model.Status;
 
 @Controller
@@ -37,7 +38,6 @@ public class PermissionController {
 		m.addAttribute("permissionsMenu", true);
 		m.addAttribute("permissions", permissions);
 
-		
 		return "permissions/index";
 	}
 
@@ -69,8 +69,15 @@ public class PermissionController {
 
 	@GetMapping("/delete/{id}")
 	@PreAuthorize("hasAnyAuthority('deletePermission')")
-	public String delete(Model m, @PathVariable Integer id) {
-		permissionRepository.delete(id);
+	public String delete(Model m, @PathVariable Integer id, final RedirectAttributes redirectAttributes) {
+		Status s = permissionRepository.delete(id);
+		FlashData fd = new FlashData(s.getCode(), s.getMessage());
+		if (s.getCode() == 200) {
+			fd.setStyleClass("success");
+		} else {
+			fd.setStyleClass("alert");
+		}
+		redirectAttributes.addFlashAttribute("flashData", fd);
 		return "redirect:/permissions";
 	}
 
@@ -89,24 +96,20 @@ public class PermissionController {
 	@PreAuthorize("hasAnyAuthority('createPermissions')")
 	public String save(Permission p, Model m, RedirectAttributes redirect) {
 		Status s = null;
-		Long id = p.getId();
+		//Long id = p.getId();
 		if (p.getId() != null && p.getId() > 0) {
 			s = permissionRepository.update(p);
 		} else {
 			s = permissionRepository.create(p);
 		}
-		// redirect.addAttribute("status", s);
-
-		if (s.isSuccess())
-			redirect.addFlashAttribute("success", true).addFlashAttribute("successMessage", s.getMessage())
-					.addFlashAttribute("statusCode", s.getCode());
-		if (!s.isSuccess())
-			redirect.addFlashAttribute("error", true).addFlashAttribute("errorMessage", s.getMessage())
-					.addFlashAttribute("statusCode", s.getCode());
-		if (s.isSuccess())
-			return "redirect:/permissions";
-		else
-			return id == null ? "redirect:/permissions/create" : "redirect:/permissions/edit/" + id;
+		FlashData fd = new FlashData(s.getCode(), s.getMessage());
+		if (s.getCode() == 200) {
+			fd.setStyleClass("success");
+		} else {
+			fd.setStyleClass("alert");
+		}
+		redirect.addFlashAttribute("flashData", fd);
+		return "redirect:/permissions";
 	}
 
 	@InitBinder

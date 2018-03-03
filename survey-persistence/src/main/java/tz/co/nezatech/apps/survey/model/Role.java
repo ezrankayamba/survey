@@ -38,4 +38,9 @@ public class Role extends NamedData{
 	public void setMtrxPermissionIds(List<String> tmpStrPermissions) {
 		this.mtrxPermissionIds = tmpStrPermissions;
 	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return getName();
+	}
 }

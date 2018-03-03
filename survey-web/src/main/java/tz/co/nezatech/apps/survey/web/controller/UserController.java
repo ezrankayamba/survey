@@ -20,6 +20,7 @@ import tz.co.nezatech.apps.survey.repository.RoleRepository;
 import tz.co.nezatech.apps.survey.repository.UserRepository;
 import tz.co.nezatech.apps.survey.web.MyUtil;
 import tz.co.nezatech.apps.survey.web.service.EmailService;
+import tz.co.nezatech.apps.survey.web.util.FlashData;
 import tz.co.nezatech.apps.util.nezadb.model.Status;
 
 @Controller
@@ -34,7 +35,6 @@ public class UserController {
 	BCryptPasswordEncoder passwordEncoder;
 	@Autowired
 	EmailService emailService;
-	
 
 	@GetMapping()
 	@PreAuthorize("hasAnyAuthority('viewUsers')")
@@ -86,7 +86,6 @@ public class UserController {
 	@PreAuthorize("hasAnyAuthority('createUsers')")
 	public String save(User e, Model m, RedirectAttributes redirect, HttpServletRequest req) {
 		Status s = null;
-		Long id = e.getId();
 		if (e.getId() != null && e.getId() > 0) {
 			s = userRepository.update(e);
 		} else {
@@ -108,18 +107,15 @@ public class UserController {
 			String subject = "Complete registration";
 			emailService.sendMail(from, to, subject, thml);
 		}
-		// redirect.addAttribute("status", s);
+		FlashData fd = new FlashData(s.getCode(), s.getMessage());
+		if (s.getCode() == 200) {
+			fd.setStyleClass("success");
+		} else {
+			fd.setStyleClass("alert");
+		}
+		redirect.addFlashAttribute("flashData", fd);
+		return "redirect:/users";
 
-		if (s.isSuccess())
-			redirect.addFlashAttribute("success", true).addFlashAttribute("successMessage", s.getMessage())
-					.addFlashAttribute("statusCode", s.getCode());
-		if (!s.isSuccess())
-			redirect.addFlashAttribute("error", true).addFlashAttribute("errorMessage", s.getMessage())
-					.addFlashAttribute("statusCode", s.getCode());
-		if (s.isSuccess())
-			return "redirect:/users";
-		else
-			return id == null ? "redirect:/users/create" : "redirect:/users/edit/" + id;
 	}
 
 }

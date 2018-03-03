@@ -121,31 +121,37 @@ public class RoleRepository extends BaseDataRepository<Role> {
 		return ps;
 	}
 
-	public void manageMatrix(final Role e) {
-		final List<Long> inserts = new ArrayList<Long>();
-		final List<Long> deletes = new ArrayList<Long>();
-		for (Iterator<String> iterator = e.getMtrxPermissionIds().iterator(); iterator.hasNext();) {
-			String line = iterator.next();
-			String tokens[] = line.split("-");
-			Long permissionId = Long.parseLong(tokens[0]);
-			boolean wasEnabled = Boolean.parseBoolean(tokens[1]);
+	public Status manageMatrix(final Role e) {
+		try {
+			final List<Long> inserts = new ArrayList<Long>();
+			final List<Long> deletes = new ArrayList<Long>();
+			for (Iterator<String> iterator = e.getMtrxPermissionIds().iterator(); iterator.hasNext();) {
+				String line = iterator.next();
+				String tokens[] = line.split("-");
+				Long permissionId = Long.parseLong(tokens[0]);
+				boolean wasEnabled = Boolean.parseBoolean(tokens[1]);
 
-			if (wasEnabled) {
-				if (!e.getPermissionIds().contains(tokens[0])) {
-					deletes.add(permissionId);
-				}
-			} else {
-				if (e.getPermissionIds().contains(tokens[0])) {
-					inserts.add(permissionId);
+				if (wasEnabled) {
+					if (!e.getPermissionIds().contains(tokens[0])) {
+						deletes.add(permissionId);
+					}
+				} else {
+					if (e.getPermissionIds().contains(tokens[0])) {
+						inserts.add(permissionId);
+					}
 				}
 			}
+
+			// Inserts
+			matrixInserts(inserts, e);
+			
+			// Deletes
+			matrixDeletes(deletes, e);
+			return new Status(200, "Successfully created enity " + e.getName(), 0);
+		} catch (Exception e2) {
+			e2.printStackTrace();
+			return new Status(500, "Role vs Permission matrix update failed. Error message: " + e2.getMessage(), 0);
 		}
-
-		// Inserts
-		matrixInserts(inserts, e);
-
-		// Deletes
-		matrixDeletes(deletes, e);
 	}
 
 	public void matrixInserts(final List<Long> inserts, final Role e) {
