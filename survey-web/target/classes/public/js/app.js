@@ -1,7 +1,7 @@
 function openNav() {
-	if(document.getElementById("leftSidebar").style.display === 'block'){
+	if (document.getElementById("leftSidebar").style.display === 'block') {
 		closeNav();
-	}else{
+	} else {
 		document.getElementById("leftSidebar").style.display = "block";
 	}
 }
@@ -11,9 +11,6 @@ function closeNav() {
 
 $(document).ready(
 		function() {
-			/*Loading page is completed*/
-			//loadingCompleted();
-			
 			function guid() {
 				function s4() {
 					return Math.floor((1 + Math.random()) * 0x10000).toString(

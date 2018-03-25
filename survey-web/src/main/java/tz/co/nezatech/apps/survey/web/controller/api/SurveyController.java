@@ -2,7 +2,9 @@ package tz.co.nezatech.apps.survey.web.controller.api;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,10 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 
+import tz.co.nezatech.apps.survey.model.DataType;
 import tz.co.nezatech.apps.survey.model.Form;
 import tz.co.nezatech.apps.survey.model.FormInstance;
 import tz.co.nezatech.apps.survey.model.Setup;
 import tz.co.nezatech.apps.survey.model.User;
+import tz.co.nezatech.apps.survey.repository.DataTypeRepository;
 import tz.co.nezatech.apps.survey.repository.FormInstanceRepository;
 import tz.co.nezatech.apps.survey.repository.FormRepository;
 import tz.co.nezatech.apps.survey.repository.SetupRepository;
@@ -45,8 +49,10 @@ public class SurveyController {
 	FormInstanceRepository fiRepository;
 	@Autowired
 	SetupRepository setupRepository;
+	@Autowired
+	DataTypeRepository dtRepository;
 
-	Logger logger = LoggerFactory.getLogger(SurveyController.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@GetMapping("/forms")
 	@PreAuthorize("hasAnyAuthority('viewSurveyForms')")
@@ -103,12 +109,47 @@ public class SurveyController {
 		return s;
 	}
 
+	@PostMapping("/forms/download")
+	@PreAuthorize("hasAnyAuthority('downloadSurveyForms')")
+	public List<FormInstance> formsDownload(@RequestBody SetupQuery q, Principal p, HttpServletRequest req) {
+		User user = userRepository.getAll("username", p.getName()).get(0);
+		List<FormInstance> formInstances=null;
+		try {
+			logger.debug("User: "+user.getUsername());
+			Map<String, Object> filters = new LinkedHashMap<>();
+			filters.put("recorded_by", String.format("=,%s", user.getId()));
+			filters.put("last_update", String.format(">,%s", q.getLastUpdate()));
+			logger.info("Filter Params: "+filters);
+			formInstances= fiRepository.search(filters);
+			logger.info("Data: "+formInstances);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			logger.error("Error: " + ex.getMessage());
+		}
+		if(formInstances== null) {
+			logger.debug("Error happened: Returning empty");
+		}
+		logger.debug("Data-Final: "+formInstances);
+		return formInstances;
+	}
+
 	@PostMapping("/setups")
 	@PreAuthorize("hasAnyAuthority('querySetups')")
 	public List<Setup> setups(@RequestBody SetupQuery q) {
 		setupRepository.setOrderBy("order by s.last_update asc");
 		logger.debug(String.format("Type: %s, LastUpdate: %s", q.getType(), q.getLastUpdate()));
-		String value=q.getType().toLowerCase().equals("all")?q.getLastUpdate():q.getType() + "/" + q.getLastUpdate();
+		String value = q.getType().toLowerCase().equals("all") ? q.getLastUpdate()
+				: q.getType() + "/" + q.getLastUpdate();
 		return setupRepository.search(value);
+	}
+
+	@PostMapping("/dataTypes")
+	@PreAuthorize("hasAnyAuthority('queryDataTypes')")
+	public List<DataType> dataTypes(@RequestBody SetupQuery q) {
+		dtRepository.setOrderBy("order by dt.last_update asc");
+		logger.debug(String.format("Type: %s, LastUpdate: %s", q.getType(), q.getLastUpdate()));
+		String value = q.getType().toLowerCase().equals("all") ? q.getLastUpdate()
+				: q.getType() + "/" + q.getLastUpdate();
+		return dtRepository.search(value);
 	}
 }
