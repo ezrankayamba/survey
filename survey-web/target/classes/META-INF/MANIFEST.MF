@@ -1,8 +1,6 @@
 Manifest-Version: 1.0
-Implementation-Title: survey-web
-Implementation-Version: 1.0
 Built-By: nkayamba
-Implementation-Vendor-Id: tz.co.nezatech.apps.survey
+Build-Jdk: 9.0.4
 Class-Path: lib/spring-boot-starter-web-1.5.9.RELEASE.jar lib/spring-b
  oot-starter-1.5.9.RELEASE.jar lib/spring-boot-starter-logging-1.5.9.R
  ELEASE.jar lib/logback-classic-1.1.11.jar lib/logback-core-1.1.11.jar
@@ -34,10 +32,12 @@ Class-Path: lib/spring-boot-starter-web-1.5.9.RELEASE.jar lib/spring-b
  -tx-4.3.13.RELEASE.jar lib/nezadb-1.0.1.jar lib/mysql-connector-java-
  5.1.44.jar lib/gson-2.8.2.jar lib/reflections-0.9.10.jar lib/guava-15
  .0.jar lib/javassist-3.21.0-GA.jar lib/annotations-2.0.1.jar
-Build-Jdk: 1.8.0_51
+Implementation-Title: survey-web
+Implementation-Version: 1.0
+Implementation-Vendor-Id: tz.co.nezatech.apps.survey
+Implementation-Vendor: Pivotal Software, Inc.
 Implementation-URL: http://projects.spring.io/spring-boot/survey/surve
  y-web/
-Created-By: Maven Integration for Eclipse
-Implementation-Vendor: Pivotal Software, Inc.
 Main-Class: tz.co.nezatech.apps.survey.web.Application
+Created-By: Maven Integration for Eclipse
 

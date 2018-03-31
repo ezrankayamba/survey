@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
+Built-By: nkayamba
+Build-Jdk: 9.0.4
 Implementation-Title: survey-persistence
 Implementation-Version: 1.0
-Built-By: nkayamba
 Implementation-Vendor-Id: tz.co.nezatech.apps.survey
-Build-Jdk: 1.8.0_51
+Implementation-Vendor: Pivotal Software, Inc.
 Implementation-URL: http://projects.spring.io/spring-boot/survey/surve
  y-persistence/
 Created-By: Maven Integration for Eclipse
-Implementation-Vendor: Pivotal Software, Inc.
 

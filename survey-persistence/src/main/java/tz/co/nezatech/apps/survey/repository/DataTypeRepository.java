@@ -29,7 +29,7 @@ public class DataTypeRepository extends BaseDataRepository<DataType> {
 
 			@Override
 			public DataType mapRow(ResultSet rs, int rowNum) throws SQLException {
-				DataType e = new DataType(rs.getString("name"), rs.getString("type"), df.format(fromSQLTimestamp(rs.getTimestamp("last_update"))));
+				DataType e = new DataType(rs.getString("name"), rs.getString("type"), df.format(fromSQLTimestamp(rs.getTimestamp("last_update"))), rs.getInt("position"));
 				return e;
 			}
 		};
