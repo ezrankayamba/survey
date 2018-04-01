@@ -6,7 +6,7 @@ body {
 	background-image: url(../img/logo.png);
 	background-size: contain;
 	width: 200px;
-	height: 50px;
+	height: 2rem;
 	background-repeat: no-repeat;
 }
 
@@ -20,10 +20,6 @@ body {
 
 .top-bar ul {
 	background: transparent;
-}
-
-#topBar>li>a {
-	font-weight: 800;
 }
 
 #mainHeader .title-area .name {
@@ -70,9 +66,12 @@ div>div>button.orbit-previous, div>div>button.orbit-next {
 }
 
 #leftSidebar, #mainContent {
-	padding: 4px;
+	padding: 0;
+	padding-top: 4px;
 }
-
+#leftSidebar  div.title-bar {
+	background: #263238;
+}
 #leftSidebar>div {
 	padding: 10px;
 	-webkit-box-shadow: 2px 2px 5px 0px rgba(204, 204, 204, 0.75);
@@ -85,28 +84,32 @@ div>div>button.orbit-previous, div>div>button.orbit-next {
 	margin: 0;
 }
 
-#leftSidebar hr {
-	margin-top: 4px;
-}
-
-#leftSidebar .profile {
-	padding-left: 1em;
-	font-size: 80%;
-	overflow-x: auto;
-}
-
-.input-group-label {
-	text-align: center;
+#leftSidebar > div {
+	padding: 2px;;
 }
 
 #mainContent {
 	overflow-y: auto;
-	max-height: 80vh;
+	max-height: 83vh;
 }
 
 #mainContent>div {
 	margin: 0;
 	max-width: 100%;
+}
+#mainContent div.top-controls>div {
+	margin: 0;
+}
+
+#mainContent div.top-controls.right>div {
+	float: right;
+	display: inline;
+}
+#mainContent>div>div>table#tbl-header {
+	z-index: 10;
+	position: relative;
+	right: 0;
+	top: 0;
 }
 
 #mainContent table {
@@ -122,6 +125,10 @@ div>div>button.orbit-previous, div>div>button.orbit-next {
 	border-top: none;
 }
 
+.input-group-label {
+	text-align: center;
+}
+
 form.form span.input-group-label {
 	/*max-width: 10em;
   min-width: 10em;*/
@@ -130,11 +137,6 @@ form.form span.input-group-label {
 
 div.form {
 	max-width: 500px;
-}
-
-#ourServices ul>li>ul>li {
-	padding-left: 2em;
-	font-size: 90%;
 }
 
 ul.round li:first-child .button {
@@ -177,12 +179,6 @@ footer {
 	margin-bottom: 0;
 }
 
-#mainContent>div>div>table#tbl-header {
-	z-index: 10;
-	position: relative;
-	right: 0;
-	top: 0;
-}
 
 table#list>caption {
 	text-align: right;
@@ -240,6 +236,14 @@ table#list>caption {
 #breadcrumbswrapper>nav>ul {
 	margin: 0;
 }
+#breadcrumbswrapper > nav > ul > li.user{
+	text-transform: none;
+}
+#breadcrumbswrapper > nav > ul > li.user > i:before{
+	content: " » ";
+	font-style: normal;
+}
+
 
 #inputForm, #groupForm {
 	padding-left: 0.5rem;
@@ -261,15 +265,6 @@ table#list>caption {
 	text-align: center;
 	background: #F0F0F0;
 	padding: 0.2rem 0.4rem;
-}
-
-#mainContent div.top-controls>div {
-	margin: 0;
-}
-
-#mainContent div.top-controls.right>div {
-	float: right;
-	display: inline;
 }
 
 .table-caption {
@@ -299,28 +294,6 @@ td.td-topvalign {
 	vertical-align: top;
 }
 
-.topinfo {
-	
-}
-
-.topinfo>ul {
-	list-style: none;
-}
-
-.topinfo>ul li ul {
-	font-size: 90%;
-	font-weight: 90;
-}
-
-.topinfo .name {
-	font-weight: 200;
-}
-
-.topinfo .value {
-	font-size: 0.8rem;
-	font-style: italic;
-}
-
 /* Form instances */
 #themap {
 	width: 100%;
@@ -332,17 +305,6 @@ td.td-topvalign {
 	background: #ECEFF1;
 }
 
-/*Loading wait indicator */
-#pageloading {
-	background: url(img/Blocks-1s-200px.gif) no-repeat;
-	position: absolute;
-	top: 30%;
-	top: calc(50% - 100px);
-    left: 40%;
-    left: calc(50% - 100px);
-    width:200px;
-    height:200px;
-}
 
 /* Media queries */
 @media screen and (max-width: 450px) {
@@ -356,6 +318,34 @@ td.td-topvalign {
 	}
 	#topBar {
 		font-size: 80%;
+	}
+	#mainContent > div {
+		padding: 0;
+	}
+	#fi-list {
+		padding: 0
+	}
+	#mainView {
+		padding: 0 0 48px 0;
+	}
+	#leftSidebar {
+		padding: 0;
+	}
+	#mainContent {
+		padding: 2px;
+	}
+}
+
+@media screen and (max-width: 760px) {
+	#sidebarMenu > li {
+		font-size: 90%;
+	}
+	#mainContent > div > section > h3,
+	#tbl-header > tbody > tr > td > div.table-caption > h3{
+		font-size: 120%;
+	}
+	#list > tbody > tr > td {
+		font-size: 90%;
 	}
 }
 

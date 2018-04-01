@@ -52,8 +52,8 @@
 								<th>Display</th>
 								<th>Submitted by</th>
 								<th>Last update</th>
-								<th>Form instance data</th>
-								<th>Manage this instance</th>
+								<th nowrap="nowrap">Form instance data</th>
+								<th nowrap="nowrap">Manage this instance</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -63,7 +63,7 @@
 									<td class="td-topvalign" th:text="${e.recordedBy.username}"></td>
 									<td class="td-topvalign"
 										th:text="${#dates.format(e.lastUpdate, 'dd-MM-yyyy HH:mm')}"></td>
-									<td class="td-topvalign">
+									<td class="td-topvalign" nowrap="nowrap">
 										<div class="topinfo">
 											<span style="white-space: nowrap;">Form data:
 												<button style="float: right;" th:attr="data-uuid=${e.uuid}"
@@ -76,7 +76,7 @@
 											</ul>
 										</div>
 									</td>
-									<td class="td-topvalign"><a
+									<td class="td-topvalign" nowrap="nowrap"><a
 										th:href="@{'/forms/instance/delete/' + ${e.id}}"
 										class="button small hollow alert">Delete</a></td>
 								</tr>

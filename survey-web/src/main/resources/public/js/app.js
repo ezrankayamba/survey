@@ -1,14 +1,3 @@
-function openNav() {
-	if (document.getElementById("leftSidebar").style.display === 'block') {
-		closeNav();
-	} else {
-		document.getElementById("leftSidebar").style.display = "block";
-	}
-}
-function closeNav() {
-	document.getElementById("leftSidebar").style.display = "none";
-}
-
 $(document).ready(
 		function() {
 			function guid() {

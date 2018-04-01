@@ -38,9 +38,8 @@
 					<th>Name</th>
 					<th>Description</th>
 					<th>Display field</th>
-					<th>Version</th>
-					<th>Manage Form</th>
-					<th>Submitted Forms</th>
+					<th nowrap="nowrap">Manage Form</th>
+					<th nowrap="nowrap">Submitted Forms</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -49,12 +48,11 @@
 						<td th:text="${e.name}"></td>
 						<td th:text="${e.description}"></td>
 						<td th:text="${e.display}"></td>
-						<td th:text="${e.version}"></td>
-						<td><a th:href="@{'/forms/edit/' + ${e.id}}"
+						<td nowrap="nowrap"><a th:href="@{'/forms/edit/' + ${e.id}}"
 							class="button small hollow">Edit</a> <a
 							th:href="@{'/forms/delete/' + ${e.id}}"
 							class="button small hollow alert">Delete</a></td>
-						<td><a th:href="@{'/instances/repos/' + ${e.id}}"
+						<td nowrap="nowrap"><a th:href="@{'/instances/repos/' + ${e.id}}"
 							class="button small hollow">View submitted forms <span
 								class="circle-number" th:text="${e.count}"></span></a></td>
 					</tr>

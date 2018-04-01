@@ -14,7 +14,6 @@
 <link rel="stylesheet"
 	th:href="@{/libs/jtree/themes/default/style.min.css}" />
 <link rel="stylesheet" th:href="@{/libs/leaflet/leaflet.css}" />
-<link rel="stylesheet" th:href="@{/css/sidenav.css}" />
 <link rel="stylesheet" th:href="@{/css/app.css}" />
 
 <script th:src="@{/js/vendor/jquery-3.3.1.min.js}"></script>
@@ -54,10 +53,9 @@
 		<div class="row" id="breadcrumbswrapper">
 			<nav aria-label="You are here:" role="navigation">
 				<ul class="breadcrumbs">
-					<li sec:authorize="isAuthenticated()" id="sidebarhbg"
-						class="sbarswitch"><a onclick="openNav()"><i
-							class="fi-list"></i> <span>Menu</span></a></li>
-					<li>Navigation:</li>
+					<li class="user" sec:authorize="isAuthenticated()"><b
+						th:text="${user.role.name}">Role</b><i
+						th:text="${user.username}">Username</i></li>
 					<th:block th:each="b : ${breadcrumbs}">
 						<li><a th:href="@{${b.url}}" th:text="${b.label}">Link</a></li>
 					</th:block>
@@ -67,37 +65,39 @@
 		<div class="row grid-x ">
 			<div sec:authorize="isAuthenticated()" id="leftSidebar"
 				class="cell large-2 medium-4 sidenav">
-				<div class="row" th:if="${user != null}">
-					<nav>
-						<ul class="vertical menu" id="sidebarMenu">
-							<li>Hi, <i><span th:text="${user.username}">User
-										name</span></i> <br /> <i>You logged in as: <i
-									th:text="${user.role.name}">Role name</i>
-							</i>
-								<hr />
-							</li>
-							<li class="divider"></li>
-							<li sec:authorize="permitAll()"
-								th:classappend="${homeMenu} ? is-active : ''"><a
-								th:href="@{/home}"><i class="fi-home"></i> <span>Home</span></a></li>
-							<li sec:authorize="hasAuthority('manageUsers')"
-								th:classappend="${usersMenu != null} ? is-active : ''"><a
-								th:href="@{/users}"><i class="fi-torsos-all"></i> <span>Manage
-										Users</span></a></li>
-							<li sec:authorize="hasAuthority('manageRoles')"
-								th:classappend="${rolesMenu != null} ? is-active : ''"><a
-								th:href="@{/roles}"><i class="fi-folder-lock"></i> <span>Manage
-										Roles</span></a></li>
-							<li sec:authorize="hasAuthority('manageFormRepos')"
-								th:classappend="${permissionsMenu != null} ? is-active : ''"><a
-								th:href="@{/permissions}"><i class="fi-lock"></i> <span>Manage
-										Permissions</span></a></li>
-							<li sec:authorize="hasAuthority('manageFormInstances')"
-								th:classappend="${formsMenu != null} ? is-active : ''"><a
-								th:href="@{/forms}"><i class="fi-clipboard-notes"></i> <span>Manage
-										Form Repos</span></a></li>
-						</ul>
-					</nav>
+				<div class="row grid-container" th:if="${user != null}">
+					<div class="title-bar" data-responsive-toggle="sbmenuContainer"
+						data-hide-for="medium" data-animate="hinge-in-from-top spin-out">
+						<button class="menu-icon" type="button"
+							data-toggle="sbmenuContainer"></button>
+						<div class="title-bar-title">Main Menu</div>
+					</div>
+					<div class="cell large-12 medium-12" id="sbmenuContainer">
+						<nav>
+							<ul class="vertical menu" id="sidebarMenu">
+								<li class="divider"></li>
+								<li sec:authorize="permitAll()"
+									th:classappend="${homeMenu} ? is-active : ''"><a
+									th:href="@{/home}"><i class="fi-home"></i> <span>Home</span></a></li>
+								<li sec:authorize="hasAuthority('manageUsers')"
+									th:classappend="${usersMenu != null} ? is-active : ''"><a
+									th:href="@{/users}"><i class="fi-torsos-all"></i> <span>Manage
+											Users</span></a></li>
+								<li sec:authorize="hasAuthority('manageRoles')"
+									th:classappend="${rolesMenu != null} ? is-active : ''"><a
+									th:href="@{/roles}"><i class="fi-folder-lock"></i> <span>Manage
+											Roles</span></a></li>
+								<li sec:authorize="hasAuthority('manageFormRepos')"
+									th:classappend="${permissionsMenu != null} ? is-active : ''"><a
+									th:href="@{/permissions}"><i class="fi-lock"></i> <span>Manage
+											Permissions</span></a></li>
+								<li sec:authorize="hasAuthority('manageFormInstances')"
+									th:classappend="${formsMenu != null} ? is-active : ''"><a
+									th:href="@{/forms}"><i class="fi-clipboard-notes"></i> <span>Manage
+											Form Repos</span></a></li>
+							</ul>
+						</nav>
+					</div>
 				</div>
 
 			</div>
