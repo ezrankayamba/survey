@@ -12,12 +12,14 @@
 		<table id="tbl-header">
 			<tr class="table-top">
 				<td colspan="5">
-					<div class="table-caption">
-						<h3>Form repositories</h3>
-					</div>
-					<div class="top-controls right">
-						<div class="button-group">
-							<a th:href="@{/forms/create}" class="button tiny">Create</a>
+					<div class="grid-x">
+						<div class="table-caption cell medium-8">
+							<h4>Form repositories</h4>
+						</div>
+						<div class="top-controls right cell medium-4">
+							<div class="button-group small">
+								<a th:href="@{/forms/create}" class="button">Create</a>
+							</div>
 						</div>
 					</div>
 				</td>
@@ -52,7 +54,8 @@
 							class="button small hollow">Edit</a> <a
 							th:href="@{'/forms/delete/' + ${e.id}}"
 							class="button small hollow alert">Delete</a></td>
-						<td nowrap="nowrap"><a th:href="@{'/instances/repos/' + ${e.id}}"
+						<td nowrap="nowrap"><a
+							th:href="@{'/instances/repos/' + ${e.id}}"
 							class="button small hollow">View submitted forms <span
 								class="circle-number" th:text="${e.count}"></span></a></td>
 					</tr>

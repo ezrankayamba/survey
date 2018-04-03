@@ -12,13 +12,15 @@
 		<table id="tbl-header">
 			<tr class="table-top">
 				<td colspan="5">
-					<div class="table-caption">
-						<h3 th:text="${form.name}">Form name</h3>
-					</div>
-					<div class="top-controls right">
-						<div class="button-group">
-							<a th:href="@{'/instances/repos/'+ ${form.id} + '/deleteall'}"
-								class="button tiny alert hollow">Delete all instances</a>
+					<div class="grid-x">
+						<div class="table-caption cell medium-8">
+							<h4 th:text="${form.name}">Form repositories</h4>
+						</div>
+						<div class="top-controls right cell medium-4">
+							<div class="button-group small">
+								<a th:href="@{'/instances/repos/'+ ${form.id} + '/deleteall'}"
+									class="button small alert hollow">Delete all instances</a>
+							</div>
 						</div>
 					</div>
 				</td>
@@ -49,9 +51,6 @@
 						th:if="${!instances.isEmpty()}">
 						<thead>
 							<tr>
-								<th>Display</th>
-								<th>Submitted by</th>
-								<th>Last update</th>
 								<th nowrap="nowrap">Form instance data</th>
 								<th nowrap="nowrap">Manage this instance</th>
 							</tr>
@@ -59,22 +58,29 @@
 						<tbody>
 							<th:block th:each="e : ${instances}">
 								<tr>
-									<td class="td-topvalign" th:text="${e.name}"></td>
-									<td class="td-topvalign" th:text="${e.recordedBy.username}"></td>
-									<td class="td-topvalign"
-										th:text="${#dates.format(e.lastUpdate, 'dd-MM-yyyy HH:mm')}"></td>
 									<td class="td-topvalign" nowrap="nowrap">
-										<div class="topinfo">
-											<span style="white-space: nowrap;">Form data:
-												<button style="float: right;" th:attr="data-uuid=${e.uuid}"
-													class="expclp-btn button tiny hollow">View</button>
-											</span><input th:id="${'json-'+e.uuid}" th:value="${e.json}"
-												type="hidden" /> <input th:id="${'name-'+e.uuid}"
-												th:value="${e.name}" type="hidden" />
-											<ul th:id="${e.uuid}" class="data-ui">
+										<ul>
+											<li><label>Name: </label><span th:text="${e.name}"></span></li>
+											<li><label>Submitted by: </label><span
+												th:text="${e.recordedBy.username}"></span></li>
+											<li><label>Last update: </label><span
+												th:text="${#dates.format(e.lastUpdate, 'dd-MM-yyyy HH:mm')}"></span></li>
+											<li>
+												<div class="topinfo">
+													<span style="white-space: nowrap;">Form data:
+														<button style="float: right;"
+															th:attr="data-uuid=${e.uuid}"
+															class="expclp-btn button tiny hollow">View</button>
+													</span><input th:id="${'json-'+e.uuid}" th:value="${e.json}"
+														type="hidden" /> <input th:id="${'name-'+e.uuid}"
+														th:value="${e.name}" type="hidden" />
+													<ul th:id="${e.uuid}" class="data-ui">
 
-											</ul>
-										</div>
+													</ul>
+												</div>
+											</li>
+										</ul>
+
 									</td>
 									<td class="td-topvalign" nowrap="nowrap"><a
 										th:href="@{'/forms/instance/delete/' + ${e.id}}"

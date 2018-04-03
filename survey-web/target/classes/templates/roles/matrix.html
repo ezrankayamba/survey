@@ -12,15 +12,15 @@
 		<table id="tbl-header">
 			<tr class="table-top">
 				<td colspan="5">
-					<div class="table-caption">
-						<h3>
-							User Role vs Permissions: <span style="font-size: 90%;"><b
-								th:text="${role.name}"></b></span>
-						</h3>
-					</div>
-					<div class="top-controls right">
-						<div class="button-group">
-							<a th:href="@{/roles}" class="button tiny hollow alert">Ignore</a>
+					<div class="grid-x">
+						<div class="table-caption cell medium-8">
+							<h4>User Role vs Permissions: <span style="font-size: 90%;"><b
+								th:text="${role.name}"></b></span></h4>
+						</div>
+						<div class="top-controls right cell medium-4">
+							<div class="button-group small">
+								<a th:href="@{/roles}" class="button hollow alert">Ignore</a>
+							</div>
 						</div>
 					</div>
 				</td>

@@ -139,6 +139,12 @@ div.form {
 	max-width: 500px;
 }
 
+div.topinfo{
+	background: #F6F6F6;
+	padding: .3rem;
+	border-radius: .3rem;
+}
+
 ul.round li:first-child .button {
 	border-radius: 4px 0 0 4px;
 }
@@ -282,7 +288,7 @@ tr.table-top>td {
 	padding: 0.2rem;
 }
 
-div.table-caption>h3 {
+div.table-caption>h4 {
 	margin: 0;
 }
 

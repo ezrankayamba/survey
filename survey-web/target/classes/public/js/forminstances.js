@@ -13,17 +13,22 @@ function initFormInstancesList() {
 			} else {
 				x.style.display = "none";
 				this.classList.add("hidden");
-				this.innerHTML = "Show";
+				this.innerHTML = "Show details";
 			}
 		});
 		btn.classList.add("hidden");
-		btn.innerHTML = "Show";
+		btn.innerHTML = "Show details";
 		var uuid = btn.dataset.uuid;
 		var topUI = document.getElementById(uuid);
 		topUI.style.display = "none";
 		var jsonText = document.getElementById("json-" + uuid).value;
 		var json = JSON.parse(jsonText);
 		var groups = json.groups;
+		var regexMulti=/^MultiSelect\[([ a-zA-Z0-9,;()\/]+)]$/g;
+		// regexMulti=escapeRegExp(regexMulti);
+		console.log(regexMulti);
+		var regexSingle="^Select\[([ a-zA-Z0-9,;()/]+)]$";
+		// regexSingle=escapeRegExp(regexSingle);
 		for (var j = 0; j < groups.length; j++) {
 			var group = groups[j];
 			if (group.type === 'GPSLocationCapture') {
@@ -55,16 +60,39 @@ function initFormInstancesList() {
 			grpLi.appendChild(grpUL);
 			for (var k = 0; k < inputs.length; k++) {
 				var input = inputs[k];
+				var type = input.type;
+				var extras=null;
+				var pattern=new RegExp(regexMulti);
+				var regexRes=pattern.exec(type);
+				if(regexRes){
+					console.log(regexRes);
+					var tokens=regexRes[1].split(";");
+					if(tokens.length == 2){
+						extras = tokens[1].split(",");
+					}
+		    	}
 				var inpLi = document.createElement("li");
-				var inpLabel = null;
+				var inpData = null;
+				var value = null;
+				var label = null;
 				if (input.hasOwnProperty('label') === true) {
-					inpLabel = document.createTextNode(input.label + ": "
-							+ input.value);
+					label = input.label + ": ";
 				} else {
-					inpLabel = document.createTextNode(input.name + ": "
-							+ input.value);
+					label = input.name + ": ";
 				}
-				inpLi.appendChild(inpLabel);
+				if(input.value !== null && typeof input.value === 'object'){
+					inpLi.appendChild(document.createTextNode(label));
+					if(input.value instanceof Array){
+						inpData=printObjectArray(input.value, extras);
+					}else {
+						inpData=printObject(input.value, extras);
+					}
+				}else{
+					inpData = document.createTextNode(label + input.value);
+				}
+				
+
+				inpLi.appendChild(inpData);
 				grpUL.appendChild(inpLi);
 			}
 		}
@@ -105,4 +133,53 @@ function initFormInstancesList() {
 			marker.bindPopup("<b>" + loc.name + "</b>").openPopup();
 		}
 	}
+}
+function escapeRegExp(str) {
+	  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	}
+function inputLabel(text) {
+    return (text.charAt(0).toUpperCase() + text.slice(1))+": ";
+}
+function printObject(obj, extras){
+	var grpUL = document.createElement("ul");
+	var name;
+	var keyNames = Object.keys(obj);
+	
+	keyNames.sort((a, b) => {
+		if(a && a == 'extras'){
+			return 999999;
+		}
+		return -1;
+	});
+		
+	for(var i in keyNames) {
+	    name = keyNames[i]
+	    var inpLi = document.createElement("li");
+	    if(obj[name] instanceof Array && extras && extras.length > 0){
+	    	var tmp="";
+	    	Array.prototype.forEach.call(extras, (item, index) => {
+		    		if(index != 0){
+		    			tmp=tmp + ", ";
+		    		}
+		    		tmp=tmp + item+": " + obj[name][index];
+	    		});
+	    	inpLi.appendChild(document.createTextNode(inputLabel(name) + tmp));	
+	    }else{
+	    	inpLi.appendChild(document.createTextNode(inputLabel(name) + obj[name]));	
+	    }
+	        
+	    grpUL.appendChild(inpLi);
+	}
+	return grpUL;
+}
+function printObjectArray(objArr, extras){
+	var grpUL = document.createElement("ul");
+	Array.prototype.forEach.call(objArr, (item, index) => {
+		var inpLi = document.createElement("li");
+		var label="[#"+(index+1)+"]";
+		inpLi.appendChild(document.createTextNode(label));
+		inpLi.appendChild(printObject(item, extras));
+		grpUL.appendChild(inpLi);
+		});
+	return grpUL;
 }
