@@ -29,15 +29,15 @@ public class ViewLayoutBasedHandler extends HandlerInterceptorAdapter {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		logger.debug("");
-		logger.debug("==========");
-		logger.debug("afterCompletion");
-		logger.debug("Handler: " + handler);
-		logger.debug("Request: " + request.getRequestURI());
+		/*
+		 * logger.debug(""); logger.debug("==========");
+		 * logger.debug("afterCompletion"); logger.debug("Handler: " + handler);
+		 * logger.debug("Request: " + request.getRequestURI());
+		 */
 		if (ex != null) {
 			logger.debug("Exception: " + ex);
 		}
-		logger.debug("==========");
+		// logger.debug("==========");
 
 		super.afterCompletion(request, response, handler, ex);
 	}
@@ -45,36 +45,34 @@ public class ViewLayoutBasedHandler extends HandlerInterceptorAdapter {
 	@Override
 	public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		logger.debug("");
-		logger.debug("==========");
-		logger.debug("afterConcurrentHandlingStarted");
-		logger.debug("Handler: " + handler);
-		logger.debug("Request: " + request.getRequestURI());
-		logger.debug("==========");
+		/*
+		 * logger.debug(""); logger.debug("==========");
+		 * logger.debug("afterConcurrentHandlingStarted"); logger.debug("Handler: " +
+		 * handler); logger.debug("Request: " + request.getRequestURI());
+		 * logger.debug("==========");
+		 */
 		super.afterConcurrentHandlingStarted(request, response, handler);
 	}
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		logger.debug("");
-		logger.debug("==========");
-		logger.debug("preHandle");
-		logger.debug("Handler: " + handler);
-		logger.debug("Request: " + request.getRequestURI());
-		logger.debug("==========");
+		/*
+		 * logger.debug(""); logger.debug("=========="); logger.debug("preHandle");
+		 * logger.debug("Handler: " + handler); logger.debug("Request: " +
+		 * request.getRequestURI()); logger.debug("==========");
+		 */
 		return super.preHandle(request, response, handler);
 	}
 
 	@Override
 	public void postHandle(final HttpServletRequest req, final HttpServletResponse res, final Object handler,
 			final ModelAndView mv) throws Exception {
-		logger.debug("");
-		logger.debug("==========");
-		logger.debug("postHandle");
-		logger.debug("Handler: " + handler);
-		logger.debug("Request: " + req.getRequestURI());
-		logger.debug("==========");
+		/*
+		 * logger.debug(""); logger.debug("=========="); logger.debug("postHandle");
+		 * logger.debug("Handler: " + handler); logger.debug("Request: " +
+		 * req.getRequestURI()); logger.debug("==========");
+		 */
 		String contextPath = req.getContextPath();
 
 		if (mv != null) {
@@ -133,28 +131,28 @@ public class ViewLayoutBasedHandler extends HandlerInterceptorAdapter {
 				int httpErrorCode = getErrorCode(req);
 				logger.debug("ErrorCode: " + httpErrorCode);
 				switch (httpErrorCode) {
-					case 400: {
-						errorMsg = "Http Error Code: 400. Bad Request";
-						break;
-					}
-					case 401: {
-						errorMsg = "Http Error Code: 401. Unauthorized";
-						break;
-					}
-					case 404: {
-						errorMsg = "Http Error Code: 404. Resource not found";
-						break;
-					}
-					case 405: {
-						errorMsg = "Http Error Code: 405. Method not allowed";
-						break;
-					}
-					case 500: {
-						errorMsg = "Http Error Code: 500. Internal Server Error";
-						break;
-					}
-					default:
-						errorMsg = "ErrorCode: " + errorMsg;
+				case 400: {
+					errorMsg = "Http Error Code: 400. Bad Request";
+					break;
+				}
+				case 401: {
+					errorMsg = "Http Error Code: 401. Unauthorized";
+					break;
+				}
+				case 404: {
+					errorMsg = "Http Error Code: 404. Resource not found";
+					break;
+				}
+				case 405: {
+					errorMsg = "Http Error Code: 405. Method not allowed";
+					break;
+				}
+				case 500: {
+					errorMsg = "Http Error Code: 500. Internal Server Error";
+					break;
+				}
+				default:
+					errorMsg = "ErrorCode: " + errorMsg;
 				}
 				logger.debug("Error msg: " + errorMsg);
 				if (!errorMsg.isEmpty()) {

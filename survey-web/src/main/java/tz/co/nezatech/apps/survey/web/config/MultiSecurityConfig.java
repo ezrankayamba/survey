@@ -23,16 +23,15 @@ public class MultiSecurityConfig {
 
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+		String sql = "select * from " + "(select u.username, p.name as authority from tbl_user u "
+				+ "left join tbl_role r on u.role_id=r.id " + "left join tbl_role_permission rp on r.id=rp.role_id "
+				+ "left join tbl_permission p on rp.permission_id=p.id " + "UNION "
+				+ "select u.username, CONCAT('ROLE_',r.name) as authority from tbl_user u "
+				+ "left join tbl_role r on u.role_id=r.id) as authorities " + "where username=?";
+		System.out.println("SQL: " + sql);
 		auth.jdbcAuthentication().dataSource(dataSource)
 				.usersByUsernameQuery("select username,password, enabled from tbl_user where username=?")
-				.authoritiesByUsernameQuery(
-						"select * from " + "(select u.username, p.name as authority from tbl_user u "
-								+ "left join tbl_role r on u.role_id=r.id "
-								+ "left join tbl_role_permission rp on r.id=rp.role_id "
-								+ "left join tbl_permission p on rp.permission_id=p.id " + "UNION "
-								+ "select u.username, CONCAT('ROLE_',r.name) as authority from tbl_user u "
-								+ "left join tbl_role r on u.role_id=r.id) as authorities " + "where username=?")
-				.passwordEncoder(new BCryptPasswordEncoder());
+				.authoritiesByUsernameQuery(sql).passwordEncoder(passwordEncoder);
 	}
 
 	@Configuration

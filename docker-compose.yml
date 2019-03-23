@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=powergen
+      - MYSQL_DATABASE=powergen
+      - MYSQL_PASSWORD=powergen
+  survey-web:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=powergen
+      - DATABASE_PASSWORD=powergen
+      - DATABASE_NAME=powergen
+      - DATABASE_PORT=3306

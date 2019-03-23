@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - BCrypt",
+            "request": "launch",
+            "mainClass": "tz.co.nezatech.apps.survey.web.BCrypt",
+            "projectName": "survey-web"
+        }
+    ]
+}
